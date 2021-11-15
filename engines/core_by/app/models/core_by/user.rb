@@ -5,7 +5,7 @@ module CoreBy
     extend AttachmentsVariants
 
     include SoftDeletable
-    include WithExternalNanoId
+    include WithExternalId
 
     %i[login email phone].each do |stripped_column|
       attribute stripped_column, :stripped_string

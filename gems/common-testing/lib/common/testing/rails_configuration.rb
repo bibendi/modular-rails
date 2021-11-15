@@ -47,8 +47,6 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   # Add `travel_to`
   config.include ActiveSupport::Testing::TimeHelpers
-  # Add `with_model`
-  config.extend WithModel
 
   config.use_transactional_fixtures = true
 

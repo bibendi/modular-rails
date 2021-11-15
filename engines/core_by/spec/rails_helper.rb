@@ -15,21 +15,21 @@ require "common/testing/ext/combustion_reset_patch"
 
 begin
   # Add another Rails part, e.g.
-  # Combustion.initialize! :active_record, :active_job, :active_storage, :action_mailer, :action_controller
-  Combustion.initialize! :active_record, database_reset: ENV["DB_RESET"] == "1", bundler_groups: :<%= name %> do
+  Combustion.initialize! :active_record, :active_job, :active_storage, :action_mailer,
+    database_reset: ENV["DB_RESET"] == "1", bundler_groups: :core_by do
     config.logger = Logger.new(nil)
     config.log_level = :fatal
     config.i18n.available_locales = [:en, :ru]
     config.autoloader = :zeitwerk
 
     # Always use test adapter for active_job
-    # config.active_job.queue_adapter = :test
-    #
+    config.active_job.queue_adapter = :test
+
     # Always use test service to active_storage
-    # config.active_storage.service = :test
-    #
+    config.active_storage.service = :test
+
     # Enable verbose logging for active_record
-    # config.active_record.verbose_query_logs = true
+    config.active_record.verbose_query_logs = true
   end
 rescue => e
   # Fail fast if application couldn't be loaded
@@ -42,36 +42,34 @@ rescue => e
   exit(1)
 end
 
-# if you need url helpers (e.g. with active storage)
-# Rails.application.default_url_options[:host] = "localhost"
-# CoreBy::Engine.routes.default_url_options[:host] = "localhost"
-# Imgproxy.configure do |config|
-#   config.endpoint = "http://imgproxy"
-# end
-
 require "common/testing/rails_configuration"
 
 # Disable PaperTrail to speed up tests
-# require "paper_trail/frameworks/rspec"
+require "paper_trail/frameworks/rspec"
 
 # action_policy helpers
-# require "action_policy/rspec"
-# require "action_policy/rspec/dsl"
+require "action_policy/rspec"
+require "action_policy/rspec/dsl"
 
 # Downstream helpers to test events
-# require "downstream/rspec"
+require "downstream/rspec"
 
-# core_by shared contexts
-# require "core_by/testing/shared_contexts"
+require "core_by/testing/shared_contexts"
+require "core_by/testing/shared_examples"
 
-# core_by shared examples
-# require "core_by/testing/shared_examples"
+# if you need url helpers (e.g. with active storage)
+Rails.application.default_url_options[:host] = "localhost"
+CoreBy::Engine.routes.default_url_options[:host] = "localhost"
+
+Imgproxy.configure do |config|
+  config.endpoint = "http://imgproxy"
+end
 
 # Additional RSpec configuration
-#
-# RSpec.configure do |config|
-#   config.after(:suite) do
-#     # Cleanup attachments generated during tests
-#     FileUtils.rm_rf(ActiveStorage::Blob.service.root)
-#   end
-# end
+
+RSpec.configure do |config|
+  config.after(:suite) do
+    # Cleanup attachments generated during tests
+    FileUtils.rm_rf(ActiveStorage::Blob.service.root)
+  end
+end

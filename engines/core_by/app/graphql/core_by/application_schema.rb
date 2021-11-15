@@ -23,12 +23,12 @@ module CoreBy
 
     rescue_from(ActiveRecord::RecordNotFound) do |err|
       reason = err.model.underscore if err.respond_to?(:model) && err.model.present?
-      raise GraphQL::ExecutionError.new("Not found", extensions: {code: :not_found, reason: reason})
+      raise ::GraphQL::ExecutionError.new("Not found", extensions: {code: :not_found, reason: reason})
     end
 
     rescue_from(::ActiveStorage::FileNotFoundError) do |err|
       reason = "Attachment file was not found on server"
-      raise GraphQL::ExecutionError.new("File not found", extensions: {code: :not_found, reason: reason})
+      raise ::GraphQL::ExecutionError.new("File not found", extensions: {code: :not_found, reason: reason})
     end
 
     rescue_from(ActionPolicy::Unauthorized) do |exp|

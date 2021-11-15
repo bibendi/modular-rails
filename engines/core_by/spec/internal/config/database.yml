@@ -1,0 +1,9 @@
+test:
+  primary:
+    encoding: unicode
+    url: <%= ENV["DATABASE_URL"] + "/primary_core_by" %>
+    pool: <%= ENV["DB_POOL_SIZE"] || 5 %>
+  statistics:
+    encoding: unicode
+    url: <%= ENV["TIMESCALE_URL"] + "/statistics_core_by" %>
+    pool: <%= ENV["RAILS_MAX_THREADS"] { 5 } %>
