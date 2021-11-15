@@ -1,0 +1,42 @@
+inherit_gem:
+  common-rubocop: config/base.yml
+
+inherit_mode:
+  merge:
+    - Exclude
+
+require:
+  - common/rubocop/cop/lint_env
+
+AllCops:
+  Exclude:
+    - 'db/schema.rb'
+    - 'db/statistics_schema.rb'
+
+Bundler/GemComment:
+  Enabled: true
+  Exclude:
+    - 'lib/**/*'
+  IgnoredGems:
+    - rails
+    - pg
+    - redis
+    - puma
+
+Bundler/OrderedGems:
+  Enabled: true
+
+Lint/Env:
+  Enabled: true
+  Include:
+    - '**/*.rb'
+  Exclude:
+    - '**/config/environments/**/*'
+    - '**/config/*.rb'
+    - '**/config/initializers/redis.rb'
+    - '**/config/initializers/slim.rb'
+    - '**/config/initializers/cache.rb'
+    - '**/config/initializers/content_security_policy.rb'
+    - '**/spec/*_helper.rb'
+    - '**/spec/**/support/**/*'
+    - 'lib/generators/**/*'

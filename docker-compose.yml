@@ -1,0 +1,151 @@
+x-rails-deps: &rails-deps
+  postgres:
+    condition: service_healthy
+  redis:
+    condition: service_healthy
+
+services:
+  ruby: &ruby
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: development
+      args:
+        # Keep versions in sync with CircleCI config
+        RUBY_VERSION: '2.7.2'
+        NODE_MAJOR: '14'
+        POSTGRES_VERSION: '13'
+        BUNDLER_VERSION: '2.2.31'
+        YARN_VERSION: '1.22.4'
+    image: modular_rails-web:3.6.0
+    # This command allows RubyMine to download application gems, because it needs a running container
+    command: tail -f /dev/null
+    environment: &ruby-environment
+      HISTFILE: /app/log/.bash_history
+      EDITOR: vim
+      MALLOC_ARENA_MAX: 2
+      WEB_CONCURRENCY: 0
+      RAILS_ENV: ${RAILS_ENV:-development}
+      DATABASE_URL: postgres://postgres:password@postgres:5432
+      TIMESCALE_URL: postgres://postgres:password@postgres:5432
+      REDIS_URL: redis://redis:6379/0
+      APP_CABLE_ADAPTER: any_cable
+      APP_CABLE_URL: ws://localhost:3334/cable
+      ANYCABLE_RPC_HOST: 0.0.0.0:50051
+      ANYCABLE_DEBUG: '0'
+      GRAPHQL_ANYCABLE_SUBSCRIPTION_EXPIRATION_SECONDS: '43200'
+      GRAPHQL_ANYCABLE_HANDLE_LEGACY_SUBSCRIPTIONS: 'true'
+      IMGPROXY_ENDPOINT: http://localhost:3080
+      APP_ACTIVE_STORAGE_DISK_INTERNAL_ENDPOINT: http://rails-server:3000
+      SKIP_YARN: ${SKIP_YARN:-0}
+      EAGER_LOAD: ${EAGER_LOAD:-0}
+      CODE_RELOAD: ${CODE_RELOAD:-1}
+      BUNDLE_APP_CONFIG: ./.bundle
+    tmpfs:
+      - /tmp
+    working_dir: ${WORK_DIR:-/app}
+    volumes:
+      - .:/app:cached
+      # We store Rails cache and gems in volumes to get speed up on Docker for Mac
+      - rails_cache:/app/tmp/cache
+      - bundle:/usr/local/bundle
+
+  rails:
+    <<: *ruby
+    command: bundle exec rails c
+    depends_on:
+      <<: *rails-deps
+
+  rails-server:
+    <<: *ruby
+    command: bundle exec rails server -b 0.0.0.0
+    ports:
+      - '3000:3000'
+    depends_on:
+      <<: *rails-deps
+      imgproxy:
+        condition: service_healthy
+
+  sidekiq:
+    <<: *ruby
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    depends_on:
+      <<: *rails-deps
+
+  schked:
+    <<: *ruby
+    command: bundle exec schked start
+    depends_on:
+      <<: *rails-deps
+      sidekiq:
+        condition: service_started
+
+  anycable:
+    <<: *ruby
+    command: bundle exec anycable
+    ports:
+      - '50051'
+    depends_on:
+      <<: *rails-deps
+      wss:
+        condition: service_started
+
+  wss:
+    image: anycable/anycable-go:1.0.2-alpine
+    ports:
+      - '3334:3334'
+    environment:
+      ANYCABLE_HOST: 0.0.0.0
+      ANYCABLE_PORT: 3334
+      ANYCABLE_REDIS_URL: redis://redis:6379/0
+      ANYCABLE_RPC_HOST: anycable:50051
+      ANYCABLE_DEBUG: '0'
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  postgres:
+    image: timescale/timescaledb:2.2.0-pg13
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./.docker/postgres/.psqlrc:/root/.psqlrc:ro
+      - ./log:/var/log/psql_history
+    ports:
+      - 5432
+    environment:
+      POSTGRES_PASSWORD: password
+      TIMESCALEDB_TELEMETRY: "off"
+    healthcheck:
+      test: pg_isready -U postgres -h 127.0.0.1
+      interval: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: 2
+          memory: 256m
+
+  redis:
+    image: redis:4
+    volumes:
+      - redis:/data
+    ports:
+      - 6379
+    healthcheck:
+      test: redis-cli ping
+      interval: 10s
+
+  imgproxy:
+    image: darthsim/imgproxy:v2.13
+    volumes:
+      - .:/app:cached
+    ports:
+      - 3080:8080
+    healthcheck:
+      test: ["CMD", "imgproxy", "health"]
+      interval: 10s
+
+volumes:
+  bundle:
+  postgres:
+  redis:
+  rails_cache:

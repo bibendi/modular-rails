@@ -1,0 +1,19 @@
+- config = Rails.application.config.app
+
+- title = locals.fetch(:title) { config.title }
+title= title
+meta property="og:title" content=title
+
+- description = locals.fetch(:description) { config.description }
+meta name="description" content=description
+meta property="og:description" content=description
+
+meta property="og:type" content="website"
+meta property="og:site_name" content=config.title
+meta property="og:url" content=config.endpoint
+
+- if image = locals[:image].presence
+  meta property="og:image" content=image
+
+- if video = locals[:video].presence
+  meta property="og:video" content=video

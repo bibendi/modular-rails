@@ -1,0 +1,24 @@
+# add git-ignore syntax here of things you don't want copied into docker image
+
+# for all code you usually don't want .git history in image, just the current commit you have checked out
+.git
+
+# you usually don't want dockerfile and compose files in the image either
+*Dockerfile*
+*docker-compose*
+
+vendor/bundle/*
+**/node_modules/*
+**/log/*
+**/tmp/*
+!/tmp/cache/webpacker
+/.idea/
+/public/assets/
+/public/system/
+/public/storage/
+/public/uploads/
+/config/master.key
+/config/credentials/*.key
+
+# Exclude Helm chart to avoid image rebuild after deploy-related changes
+/deployment/

@@ -1,0 +1,64 @@
+@font-face {
+  font-weight: 400;
+  font-style: normal;
+  font-family: "Stem Text";
+  src: url("//cdn.evilmartians.com/front/fonts/subset-StemText-Regular.woff") format("woff");
+}
+@font-face {
+  font-weight: 700;
+  font-style: normal;
+  font-family: "Stem Text";
+  src: url("//cdn.evilmartians.com/front/fonts/subset-StemText-Bold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Fira Code";
+  src: url("./fonts/FiraCode-Regular.woff") format("woff");
+}
+
+:root {
+  --theme-color: #131313;
+  --theme-color-light: #1d1d1d;
+  --theme-color-dark: #000000;
+  --text-color-base: #363636;
+  --text-color-secondary: #646473;
+}
+
+::selection {
+  background: var(--theme-color-light);
+}
+
+body {
+  font-size: 100%;
+  font: 18px/30px "Stem Text", "Arial", sans-serif;
+  color: var(--text-color-base);
+}
+
+.sidebar-nav .sidebar-hidden {
+  display: none;
+}
+
+.github-corner svg {
+  fill: var(--theme-color);
+}
+
+.markdown-section code {
+  display: inline-block;
+  font-family: 'Fira Code', monospace;
+}
+
+.sidebar::-webkit-scrollbar {
+  width:0;
+}
+
+@media (min-width: 1200px) {
+  body {
+    font-size: 112.5%;
+  }
+}
+
+@media (min-width: 1400px) {
+  body {
+    font-size: 125%;
+  }
+}

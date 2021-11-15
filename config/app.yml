@@ -1,0 +1,28 @@
+development:
+  host: localhost
+  port: "3000"
+  cable_adapter: redis
+  active_storage_service: local
+  title: "Modular Rails App (dev)"
+  description: "Component-based architecture example app"
+
+test:
+  host: localhost
+  cable_adapter: test
+  active_storage_service: test
+  title: "Modular Rails (test)"
+  description: "Component-based architecture example app"
+
+production: &production
+  protocol: https
+  host: modular-rails.com
+  cable_adapter: any_cable
+  active_storage_service: google
+  title: "Modular Rails"
+  description: "Component-based architecture example app"
+
+staging:
+  <<: *production
+  host: modular-rails.dev
+  title: "Modular Rails (staging)"
+  description: "Component-based architecture example app"

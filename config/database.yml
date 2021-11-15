@@ -1,0 +1,65 @@
+_primary: &primary
+  adapter: postgres
+  encoding: unicode
+  url: <%= ENV["DATABASE_URL"] %>
+  pool: <%= ENV["RAILS_MAX_THREADS"] { 5 } %>
+  prepared_statements: false
+  advisory_locks: false
+  schema_dump: true
+
+_statistics: &statistics
+  adapter: postgres
+  encoding: unicode
+  url: <%= ENV["TIMESCALE_URL"] %>
+  pool: <%= ENV["RAILS_MAX_THREADS"] { 5 } %>
+  prepared_statements: false
+  advisory_locks: false
+  schema_dump: false
+  migrations_paths:
+    - db/statistics_migrate
+    - engines/core_by/db/statistics_migrate
+    - engines/auth_by/db/statistics_migrate
+
+development:
+  primary: &development_primary
+    <<: *primary
+    url: <%= ENV["DATABASE_URL"] + "/primary_development" %>
+  statistics:
+    <<: *statistics
+    url: <%= ENV["TIMESCALE_URL"] + "/statistics_development" %>
+
+development_direct:
+  <<: *development_primary
+
+test:
+  primary: &test_primary
+    <<: *primary
+    url: <%= ENV["DATABASE_URL"] + "/primary_test" %>
+  statistics:
+    <<: *statistics
+    url: <%= ENV["TIMESCALE_URL"] + "/statistics_test" %>
+
+test_direct:
+  <<: *test_primary
+
+production:
+  primary: &production_primary
+    <<: *primary
+  statistics:
+    <<: *statistics
+
+production_direct:
+  <<: *production_primary
+  url: <%= ENV["DATABASE_DIRECT_URL"] %>
+  idle_timeout: 120
+
+staging:
+  primary: &staging_primary
+    <<: *primary
+  statistics:
+    <<: *statistics
+
+staging_direct:
+  <<: *staging_primary
+  url: <%= ENV["DATABASE_DIRECT_URL"] %>
+  idle_timeout: 120

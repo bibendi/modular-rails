@@ -1,0 +1,14 @@
+default: &default
+  adapter: <%= Rails.application.config.app.cable_adapter %>
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
+
+staging:
+  <<: *default

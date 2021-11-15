@@ -1,0 +1,15 @@
+development:
+  from: '"Modular Rails" <support@modular-rails.localhost>'
+  reply_to: support@modular-rails.localhost
+
+test:
+  from: '"Modular Rails" <support@modular-rails.test>'
+  reply_to: support@modular-rails.test
+
+production:
+  from: '"Modular Rails" <support@modular-rails.com>'
+  reply_to: support@modular-rails.com
+
+staging:
+  from: '"Modular Rails (STAGING)" <support-staging@modular-rails.dev>'
+  reply_to: support-staging@modular-rails.dev

@@ -1,0 +1,11 @@
+production: &production
+  enabled: true
+  endpoint: https://cdn.modular-rails.me
+  expires_in: 604800
+  key_name: web-production
+
+staging:
+  <<: *production
+  endpoint: https://cdn.modular-rails.dev
+  expires_in: 604800
+  key_name: web-staging

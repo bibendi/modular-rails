@@ -1,0 +1,7 @@
+production: &production
+  address: smtp.sendgrid.net
+  domain: modular-rails.com
+  username: apikey
+
+staging:
+  <<: *production

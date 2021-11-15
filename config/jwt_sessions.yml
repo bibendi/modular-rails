@@ -1,0 +1,19 @@
+development:
+  store_type: redis
+  access_exp_time: 2592000 # 1 month
+  refresh_exp_time: 31536000 # 1 year
+
+test:
+  store_type: memory
+  access_exp_time: 60 # 1 minute
+  refresh_exp_time: 3600 # 1 hour
+
+staging:
+  store_type: redis
+  access_exp_time: 3600 # 1 hour
+  refresh_exp_time: 31536000 # 1 year
+
+production:
+  store_type: redis
+  access_exp_time: 3600 # 1 hour
+  refresh_exp_time: 31536000 # 1 year

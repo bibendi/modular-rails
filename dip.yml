@@ -1,0 +1,90 @@
+version: '5.0.0'
+
+environment:
+  WORK_DIR: /app/${DIP_WORK_DIR_REL_PATH}
+
+compose:
+  files:
+    - ./docker-compose.yml
+    - ./docker-compose.override.yml
+
+interaction:
+  shell:
+    description: Open a Bash shell
+    service: ruby
+    command: /bin/bash
+
+  bundle:
+    description: Run Bundler commands
+    service: ruby
+    command: bundle
+
+  yarn:
+    description: Run Yarn commands
+    service: ruby
+    command: yarn
+
+  rake:
+    description: Run Rake commands
+    service: rails
+    command: bundle exec rake
+
+  rails:
+    description: Run Rails commands
+    service: rails
+    command: bundle exec rails
+    subcommands:
+      s:
+        description: Run Rails server available at http://localhost:3000
+        service: rails-server
+        command: bundle exec rails server -b 0.0.0.0
+        compose:
+          run_options: [service-ports, use-aliases]
+
+  sidekiq:
+    description: Run Sidekiq worker
+    service: sidekiq
+
+  schked:
+    description: Run Schked scheduler
+    service: schked
+
+  anycable:
+    description: Run Anycable RPC worker
+    service: anycable
+    compose:
+      run_options: [service-ports, use-aliases]
+
+  rspec:
+    description: Run RSpec commands within test environment
+    service: rails
+    environment:
+      RAILS_ENV: test
+    command: bundle exec rspec
+
+  rubocop:
+    description: Lint ruby files
+    service: ruby
+    command: bundle exec rubocop
+
+  engem:
+    description: Tool for running commands within local Engines or Gems
+    service: ruby
+    command: ./bin/engem
+
+  psql:
+    description: Open Postgres console
+    service: postgres
+    default_args: primary_development
+    command: env PGPASSWORD=password psql -h postgres -U postgres
+
+  'redis-cli':
+    description: Open a Redis console
+    service: redis
+    command: redis-cli -h redis
+
+provision:
+  - cp -f lefthook-local.dip_example.yml lefthook-local.yml
+  - dip compose down --volumes
+  - dip compose up -d postgres redis sidekiq
+  - dip shell -c "./bin/setup"

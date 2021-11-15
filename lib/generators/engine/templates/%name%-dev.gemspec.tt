@@ -1,0 +1,17 @@
+# frozen_string_literal: true
+
+Gem::Specification.new do |s|
+  s.name = "<%= name %>-dev"
+  s.version = "0.1.0"
+  s.authors = ["Vicinity"]
+  s.summary = "TODO:"
+
+  s.add_dependency "bootsnap", "~> 1.4"
+  s.add_dependency "brakeman", "~> 5.0"
+  s.add_dependency "bundler", ">= 2.0"
+  s.add_dependency "rake", "~> 13.0"
+
+  # Internal
+  s.add_dependency "common-rubocop"
+  s.add_dependency "common-testing"
+end

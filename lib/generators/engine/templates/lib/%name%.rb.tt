@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+require "rails"
+
+require "<%= name %>/version"
+
+module <%= class_name %>
+  class << self
+    def table_name_prefix
+      ""
+    end
+  end
+end
+
+require "<%= name %>/engine"

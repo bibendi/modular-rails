@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head></head>
+  <body
+    width="100%"
+    bgcolor="#252525"
+    topmargin="0"
+    leftmargin="0"
+    marginheight="0"
+    marginwidth="0"
+    style="width: 100%;
+           height: 100%;
+           background: #252525;"
+  >
+    <table
+      bgcolor="#0F0F0F"
+      width="640"
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      align="center"
+      style="width: 640px;
+             border: 0;
+             padding: 0;
+             border-spacing: 0;
+             background: #0F0F0F;
+             font-family: Helvetica Neue, Helvetica, sans-serif;"
+    >
+      <tbody>
+        <tr><td bgcolor="#0F0F0F" width="100%" height="60">&nbsp;</td></tr>
+        <tr>
+          <td align="center">
+            <table
+              bgcolor="#0F0F0F"
+              width="100%"
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              align="center"
+              style="width: 100%;
+                     background: #0F0F0F;"
+            >
+              <tbody>
+
+                <tr>
+                  <td width="40">&nbsp;</td>
+                  <td align="left" width="560">
+                    <img
+                      src="<%= image_url('/mail-assets/logo.png')  %>"
+                      alt="Modular Rails"
+                      width="110"
+                      height="60"
+                      border="0"
+                      style="display: block;"
+                    />
+                  </td>
+                  <td width="40">&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+
+        <tr><td bgcolor="#0F0F0F" width="100%" height="60">&nbsp;</td></tr>
+
+        <tr>
+          <td>
+            <table
+              width="100%"
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              align="center"
+              bgcolor="#141414"
+              style="width: 100%;
+                    border: 0;
+                    padding: 0;
+                    border-spacing: 0;
+                    background: #141414;"
+            >
+              <tbody>
+                <tr><td width="100%" height="30" colSpan="3">&nbsp;</td></tr>
+
+                <tr>
+                  <td width="40">&nbsp;</td>
+                  <td>
+                    <table
+                      width="560"
+                      border="0"
+                      cellpadding="0"
+                      cellspacing="0"
+                      align="center"
+                      style="width: 560px;
+                              border: 0;
+                              padding: 0;
+                              border-spacing: 0;
+                              color: #DBDBDB;"
+                    >
+                      <tbody>
+                        <tr>
+                          <td align="center">
+                            <h1
+                              style="font-size: 38px;
+                                     line-height: 42px;
+                                     font-weight: bold;
+                                     margin: 0;"
+                            >
+                              <%= yield :title %>
+                            </h1>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td
+                            style="font-size: 20px;
+                                   line-height: 28px;"
+                            align="left"
+                          >
+                            <%= yield :content %>
+                          </td>
+                        </tr>
+
+                        <tr><td width="100%" height="24">&nbsp;</td></tr>
+
+                        <% if @action %>
+                          <%= render "shared/mailer/action", action: @action %>
+                        <% else %>
+                          <%= yield :action %>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  </td>
+                  <td width="40">&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <table
+                width="100%"
+                bgcolor="#0F0F0F"
+                border="0"
+                cellpadding="0"
+                cellspacing="0"
+                align="center"
+                style="width: 100%;
+                      border: 0;
+                      padding: 0;
+                      border-spacing: 0;
+                      background: #0F0F0F;"
+              >
+              <tbody>
+                <tr>
+                  <td width="40">&nbsp;</td>
+                  <td>
+                    <table
+                        width="560"
+                        border="0"
+                        cellpadding="0"
+                        cellspacing="0"
+                        align="center"
+                        style="width: 560px;
+                              border: 0;
+                              padding: 0;
+                              border-spacing: 0;"
+                      >
+                      <tbody>
+                        <tr><td width="100%" height="40">&nbsp;</td></tr>
+
+                        <tr>
+                          <td
+                            width="44"
+                            height="38"
+                            align="left"
+                            valign="center"
+                          >
+                            <img
+                              src="<%= image_url('/mail-assets/logo.png')  %>"
+                              alt="Modular Rails"
+                              width="44"
+                              height="25"
+                              border="0"
+                              style="display: block;"
+                            />
+                          </td>
+
+                          <td
+                            width="24"
+                            height="24"
+                            align="right"
+                            valign="center"
+                          >
+                          </td>
+
+                          <td width="24">&nbsp;</td>
+
+                          <td
+                            width="24"
+                            height="24"
+                            align="right"
+                            valign="center"
+                          >
+                          </td>
+                        </tr>
+
+                        <tr><td width="100%" height="16">&nbsp;</td></tr>
+
+                        <tr>
+                          <td
+                            style="font-size: 14px;
+                                   line-height: 24px;
+                                   color: #DBDBDB;"
+                            align="left"
+                          >
+                            <p>© 2021</p>
+                          </td>
+                        </tr>
+
+                        <tr><td width="100%" height="40">&nbsp;</td></tr>
+                      </tbody>
+                    </table>
+                  </td>
+                  <td width="40">&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

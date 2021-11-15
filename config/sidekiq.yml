@@ -1,0 +1,17 @@
+---
+# The number of worker threads
+:concurrency: <%= ENV['RAILS_MAX_THREADS'] || 5 %>
+
+development:
+  :concurrency: 2
+
+# Quit shutdown timeout
+# See https://github.com/mperham/sidekiq/issues/3607
+:timeout: 25
+
+:queues:
+  - high_priority
+  - default
+  - low_priority
+  - active_storage_analysis
+  - active_storage_purge
