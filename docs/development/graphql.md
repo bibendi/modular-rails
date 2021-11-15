@@ -24,7 +24,7 @@ just `String`). **NOTE:** add _general_ scalar types to `common-graphql` gem.
 
 ```ruby
 # Bad
-class SomeType < Common::GraphQL::Object
+class SomeType < CoreBy::Schema::Object
   field :id, ID, null: false
   field :meta, MetadataType, null: true
 
@@ -33,7 +33,7 @@ class SomeType < Common::GraphQL::Object
   end
 end
 
-class MetadataType < Common::GraphQL::Object
+class MetadataType < CoreBy::Schema::Object
   field :device, String, null: true
 
   def device
@@ -42,12 +42,12 @@ class MetadataType < Common::GraphQL::Object
 end
 
 # Good
-class SomeType < Common::GraphQL::Object
+class SomeType < CoreBy::Schema::Object
   field :id, ID, null: false, method: :external_id
   field :meta, MetadataType, null: true
 end
 
-class MetadataType < Common::GraphQL::Object
+class MetadataType < CoreBy::Schema::Object
   field :device, String, null: true, hash_key: "device_id"
 end
 ```
@@ -75,11 +75,11 @@ field :foo, String, null: false, user_checks: {completed: true}
 
 The above field will check `current_user.completed?` method when authorizing an access.
 
-- Use `AttachmentUrlField` extension for Active Storage attachments:
+- Use `AttachmentURLField` extension for Active Storage attachments:
 
 ```ruby
-field :avatar_url, Common::GraphQL::Types::URLString, "URL of user's avatar", null: true do
-  extension FieldExtensions::AttachmentUrlField, variant: {enum: Enums::AvatarVariant, required: true}
+field :avatar_url, CoreBy::Types::URLString::Types::URLString, "URL of user's avatar", null: true do
+  extension FieldExtensions::AttachmentURLField, variant: {enum: Enums::AvatarVariant, required: true}
 end
 ```
 
@@ -93,8 +93,8 @@ The name of the attachment is resolved automatically from the field name
 You can specify the attachment name explicitly:
 
 ```ruby
-field :avatar_url, Common::GraphQL::Types::URLString, "URL of user's avatar", null: true do
-  extension FieldExtensions::AttachmentUrlField, attachment: :avatar
+field :avatar_url, CoreBy::Types::URLString::Types::URLString, "URL of user's avatar", null: true do
+  extension FieldExtensions::AttachmentURLField, attachment: :avatar
 end
 ```
 
@@ -148,8 +148,8 @@ field :update_profile_password, mutation: Mutations::Profile::UpdatePassword
 module AuthBy
   module Mutations
     module Profile
-      class UpdateInfo < Common::GraphQL::Mutation
-        class UpdateProfileInfoInput < GraphQL::Schema::InputObject
+      class UpdateInfo < CoreBy::Schema::Mutation
+        class UpdateProfileInfoInput < Schema::Input
           argument :first_name, String, required: false
           argument :last_name, String, required: false
           argument :bio, String, required: false

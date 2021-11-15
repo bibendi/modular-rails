@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency "action_policy", "~> 0.3"
+  s.add_dependency "action_policy-graphql", "~> 0.5"
   s.add_dependency "activejob-status", "~> 0.1"
   s.add_dependency "activejob-uniqueness", "~> 0.2"
   s.add_dependency "activerecord-postgres_enum", "~> 1.0"
@@ -24,7 +25,11 @@ Gem::Specification.new do |s|
   s.add_dependency "discard", "~> 1.2"
   s.add_dependency "downstream", "~> 1.3"
   s.add_dependency "dry-initializer", "~> 3.0"
+  s.add_dependency "graphql", "~> 1.12.4"
   s.add_dependency "graphql-anycable", "~> 1.0"
+  s.add_dependency "graphql-connections", "~> 1.1"
+  s.add_dependency "graphql-fragment_cache", "~> 1.0", ">= 1.0.4"
+  s.add_dependency "graphql-persisted_queries", "~> 1.2"
   s.add_dependency "hiredis", "~> 0.6"
   s.add_dependency "imgproxy", "~> 2.0"
   s.add_dependency "name_of_person", "~> 1.1"

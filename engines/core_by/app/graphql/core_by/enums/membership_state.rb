@@ -2,7 +2,7 @@
 
 module CoreBy
   module Enums
-    class MembershipState < GraphQL::Schema::Enum
+    class MembershipState < Schema::Enum
       description "User membership state"
 
       value "ACTIVE", "User is active", value: "active_membership"

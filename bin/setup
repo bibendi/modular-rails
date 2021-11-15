@@ -17,9 +17,6 @@ FileUtils.chdir APP_ROOT do
   system! 'gem install bundler --conservative'
   system('bundle check') || system!('bundle install')
 
-  # Install JavaScript dependencies
-  system! 'yarn'
-
   puts "\n== Preparing database =="
   system! 'bin/rails db:recreate'
   system! 'bin/rails db:seed'

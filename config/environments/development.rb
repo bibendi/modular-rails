@@ -60,6 +60,4 @@ Rails.application.configure do
 
   # This host is used in docker compose and accessed by imgproxy
   config.hosts << /rails-server\Z/
-
-  config.graphdoc_run_time = true
 end

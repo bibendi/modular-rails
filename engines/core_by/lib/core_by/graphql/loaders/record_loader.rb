@@ -12,7 +12,7 @@ module CoreBy
       #
       #  def my_invitation
       #    dataloader
-      #      .with(Common::GraphQL::Loaders::RecordLoader, Invitation)
+      #      .with(CoreBy::GraphQL::Loaders::RecordLoader, Invitation)
       #      .load(event_id: object.id, user_id: current_user.id)
       #  end
       #

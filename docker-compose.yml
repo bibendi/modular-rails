@@ -16,7 +16,6 @@ services:
         NODE_MAJOR: '14'
         POSTGRES_VERSION: '13'
         BUNDLER_VERSION: '2.2.31'
-        YARN_VERSION: '1.22.4'
     image: modular_rails-web:3.6.0
     # This command allows RubyMine to download application gems, because it needs a running container
     command: tail -f /dev/null
@@ -37,7 +36,6 @@ services:
       GRAPHQL_ANYCABLE_HANDLE_LEGACY_SUBSCRIPTIONS: 'true'
       IMGPROXY_ENDPOINT: http://localhost:3080
       APP_ACTIVE_STORAGE_DISK_INTERNAL_ENDPOINT: http://rails-server:3000
-      SKIP_YARN: ${SKIP_YARN:-0}
       EAGER_LOAD: ${EAGER_LOAD:-0}
       CODE_RELOAD: ${CODE_RELOAD:-1}
       BUNDLE_APP_CONFIG: ./.bundle

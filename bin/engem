@@ -50,11 +50,6 @@ class EngineGemCLI < Thor
     exec_command("./bin/rails", *args)
   end
 
-  desc "NAME yarn", "Run Engine's Yarn commands"
-  def yarn(*args)
-    exec_command("yarn", *args)
-  end
-
   desc "NAME build", "Install deps, run linters and tests for the engine"
   method_option :skip_rspec, type: :boolean, default: false
   method_option :skip_rubocop, type: :boolean, default: false

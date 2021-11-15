@@ -2,7 +2,7 @@
 
 module CoreBy
   module Enums
-    class AttachmentVariant < GraphQL::Schema::Enum
+    class AttachmentVariant < Schema::Enum
       def self.variants_for(model, attachment)
         description "#{model.model_name.human} #{attachment} image variants"
 

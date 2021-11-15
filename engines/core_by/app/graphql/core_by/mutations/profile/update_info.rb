@@ -8,7 +8,7 @@ module CoreBy
 
         description "Update the current user's profile information (basic fields)"
 
-        class UpdateProfileInfoInput < GraphQL::Schema::InputObject
+        class UpdateProfileInfoInput < Schema::Input
           description "Update profile info input"
 
           argument :login, String, "User name, e.g. 'john.green'", required: false

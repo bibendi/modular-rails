@@ -11,7 +11,7 @@ module CoreBy
         Based on https://github.com/rails/rails/blob/master/activestorage/app/controllers/active_storage/direct_uploads_controller.rb
       DESC
 
-      class CreateDirectUploadInput < GraphQL::Schema::InputObject
+      class CreateDirectUploadInput < Schema::Input
         description "File information required to prepare a direct upload"
 
         argument :filename, String, "Original file name", required: true

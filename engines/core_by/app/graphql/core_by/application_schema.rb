@@ -7,7 +7,7 @@ module CoreBy
     use ::GraphQL::PersistedQueries, compiled_queries: true
 
     max_depth 13
-    max_complexity 100
+    max_complexity 200
     default_max_page_size 10
 
     case ActionCable.server.config.cable&.fetch("adapter", nil)

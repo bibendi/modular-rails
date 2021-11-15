@@ -2,7 +2,7 @@
 
 module CoreBy
   module Statistics
-    class << sef
+    class << self
       def table_name_prefix
         ""
       end

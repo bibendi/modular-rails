@@ -109,9 +109,5 @@ module ModularRails
         request_specs: true,
         controller_specs: true
     end
-
-    # Defines whetehr to generate Graphdoc static website
-    # in run time or not
-    config.graphdoc_run_time = false
   end
 end

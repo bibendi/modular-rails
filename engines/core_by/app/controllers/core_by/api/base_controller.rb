@@ -24,7 +24,7 @@ module CoreBy
         end
       end
 
-      rescue_from(GraphQL::PersistedQueries::WrongHash) do |exception|
+      rescue_from(::GraphQL::PersistedQueries::WrongHash) do |exception|
         respond_with_error("Persisted query wrong hash", status: 422, code: :invalid, reason: :wrong_hash)
       end
 

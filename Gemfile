@@ -39,10 +39,6 @@ gem "bootsnap", ">= 1.4.2", require: false
 # https://github.com/kickstarter/rack-attack
 gem "rack-attack"
 
-# Auto-generated documentation for GraphQL API
-# https://github.com/alpaca-tc/graphdoc-ruby
-gem "graphdoc-ruby"
-
 # Taming Rails' Default Request Logging
 # https://github.com/roidrage/lograge
 gem "lograge"

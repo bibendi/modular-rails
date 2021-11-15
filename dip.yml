@@ -19,11 +19,6 @@ interaction:
     service: ruby
     command: bundle
 
-  yarn:
-    description: Run Yarn commands
-    service: ruby
-    command: yarn
-
   rake:
     description: Run Rake commands
     service: rails

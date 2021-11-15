@@ -2,7 +2,7 @@
 
 module CoreBy
   module Enums
-    class Role < GraphQL::Schema::Enum
+    class Role < Schema::Enum
       description "User role"
 
       value "MEMBER", "Member", value: "member"

@@ -87,7 +87,7 @@ module CoreBy
     end
 
     def active?
-      !disabled? && && !discarded?
+      !disabled? && !discarded?
     end
 
     def community_manager?

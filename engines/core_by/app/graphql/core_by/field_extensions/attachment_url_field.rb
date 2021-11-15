@@ -3,7 +3,7 @@
 module CoreBy
   module FieldExtensions
     # GraphQL field extension allows returning URL of Active Storage attachment.
-    class AttachmentUrlField < GraphQL::Schema::FieldExtension
+    class AttachmentURLField < ::GraphQL::Schema::FieldExtension
       class AttachmentLoader < ::GraphQL::Dataloader::Source
         CACHE_NAMESPACE = "core_by:attachment_url_field"
         CACHE_EXPIRES_IN = 1.hour

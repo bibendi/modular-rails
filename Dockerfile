@@ -7,7 +7,6 @@ FROM ruby:${RUBY_VERSION}-slim-buster as base
 ARG NODE_MAJOR
 ARG POSTGRES_VERSION
 ARG BUNDLER_VERSION
-ARG YARN_VERSION
 
 # Common dependencies
 RUN apt-get update -qq \
@@ -33,10 +32,6 @@ RUN curl -sSL https://deb.nodesource.com/setup_${NODE_MAJOR}.x | bash -
 RUN curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
   && echo 'deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main' ${POSTGRES_VERSION} > /etc/apt/sources.list.d/pgdg.list
 
-# Yarn
-RUN curl -sSL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-  && echo 'deb http://dl.yarnpkg.com/debian/ stable main' > /etc/apt/sources.list.d/yarn.list
-
 # App's dependencies
 RUN apt-get update -qq \
   && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
@@ -44,7 +39,6 @@ RUN apt-get update -qq \
     libpq-dev \
     nodejs \
     python-dev \
-    yarn=${YARN_VERSION}-1 \
   && apt-get clean \
   && rm -rf /var/cache/apt/archives/* \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
@@ -103,11 +97,6 @@ USER web
 RUN mkdir /home/web/app
 
 WORKDIR /home/web/app
-
-# JS packages
-COPY --chown=web:web package.json yarn.lock ./
-
-RUN yarn install --check-files
 
 # Ruby gems
 COPY --chown=web:web Gemfile Gemfile.lock .ruby-version .rails-version ./
@@ -208,8 +197,6 @@ COPY --chown=web:web . .
 
 # Artifacts
 COPY --from=production-builder $BUNDLE_PATH $BUNDLE_PATH
-COPY --from=production-builder /home/web/app/tmp/graphdoc /home/web/app/tmp/graphdoc
-COPY --from=production-builder /home/web/app/tmp/graphql /home/web/app/tmp/graphql
 COPY --chown=web:web --from=production-builder /home/web/app/tmp/cache/bootsnap* /home/web/app/tmp/cache/
 
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
