@@ -44,12 +44,6 @@ module CoreBy
           Seeds.announce(msg, &block)
         end
 
-        def for_load_tests_only(&block)
-          return unless ENV["FOR_LOAD_TESTS"]
-
-          yield
-        end
-
         def create(factory, *traits, **params)
           FactoryBot.create(factory, *traits, **params).tap do |record|
             traits_msg = traits.any? ? " (#{traits.join(", ")})" : ""

@@ -5,5 +5,6 @@ source "https://rubygems.org"
 gemspec
 
 path ".." do
+  # Testing factories
   gem "common-factory"
 end

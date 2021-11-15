@@ -4,11 +4,11 @@ module CoreBy
   class DirectDb < ActiveRecord::Base
     self.abstract_class = true
 
-    if Rails.env.test?
-      def self.take_connection
-        yield connection
-      end
-    else
+    def self.take_connection
+      yield connection
+    end
+
+    unless Rails.env.test?
       establish_connection :"#{Rails.env}_direct"
 
       class << self

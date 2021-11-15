@@ -22,6 +22,7 @@ Bundler/GemComment:
     - pg
     - redis
     - puma
+    - sidekiq
 
 Bundler/OrderedGems:
   Enabled: true
@@ -38,5 +39,7 @@ Lint/Env:
     - '**/config/initializers/cache.rb'
     - '**/config/initializers/content_security_policy.rb'
     - '**/spec/*_helper.rb'
+    - '**/testing/*.rb'
     - '**/spec/**/support/**/*'
     - 'lib/generators/**/*'
+    - 'engines/core_by/app/models/core_by/direct_db.rb'
