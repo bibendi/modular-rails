@@ -8,13 +8,13 @@ describe ImgproxyConfig, type: :config do
   specify do
     with_env(
       "IMGPROXY_ENDPOINT" => "imgproxy.test",
-      "IMGPROXY_SOURCE_HOST" => "vicinity.test",
+      "IMGPROXY_SOURCE_HOST" => "rails-modular.test",
       "IMGPROXY_KEY" => "key",
       "IMGPROXY_SALT" => "salt"
     ) do
       is_expected.to have_attributes(
         endpoint: "imgproxy.test",
-        source_host: "vicinity.test",
+        source_host: "rails-modular.test",
         key: "key",
         salt: "salt"
       )

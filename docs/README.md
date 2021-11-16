@@ -1,6 +1,6 @@
 <!-- Do not show the headers in the docsify sidebar -->
 <div class="sidebar-hidden">
-  <h1>Vicinity Developer Documentation</h1>
+  <h1>Developer Documentation</h1>
   <h2>Table of contents</h2>
 </div>
 
@@ -13,15 +13,9 @@
   - [Engines](./development/engines.md)
   - [Gems](./development/gems.md)
   - [Configuration](./development/configs.md)
-  - [Migrations](./development/migrations.md)
   - [Mailers](./development/mailers.md)
   - [Authentication](./development/authentication.md)
   - [GraphQL](./development/graphql.md)
-  - [Elasticsearch](./development/elasticsearch.md)
-
-* Testing
-  - [Test Prof](./testing/test_prof.md)
-  - [System](./testing/system.md)
 
 <hr>
 

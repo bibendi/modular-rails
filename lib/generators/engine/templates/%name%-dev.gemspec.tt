@@ -3,7 +3,7 @@
 Gem::Specification.new do |s|
   s.name = "<%= name %>-dev"
   s.version = "0.1.0"
-  s.authors = ["Vicinity"]
+  s.authors = ["Evil Martians"]
   s.summary = "TODO:"
 
   s.add_dependency "bootsnap", "~> 1.4"

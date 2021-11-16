@@ -54,7 +54,6 @@ gem "strong_migrations"
 
 group :production, :staging do
   # Sentry.io agent
-  # https://sentry.io/organizations/vicinity/projects/
   gem "sentry-raven"
 
   # https://rpm.newrelic.com/accounts/2645801
