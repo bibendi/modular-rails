@@ -33,7 +33,7 @@ class EngineGemCLI < Thor
     exec_command("bundle", *args)
   end
 
-  %w[rake rubocop brakeman rspec].each do |cmd|
+  %w[rake brakeman rspec].each do |cmd|
     desc "NAME #{cmd} [OPTIONS]", "Run Engine's `#{cmd}` command"
     define_method(cmd) do |*args|
       bundle(*(["exec", cmd] + args))
@@ -48,15 +48,6 @@ class EngineGemCLI < Thor
   desc "NAME rails", "Run Engine's Rails commands"
   def rails(*args)
     exec_command("./bin/rails", *args)
-  end
-
-  desc "NAME build", "Install deps, run linters and tests for the engine"
-  method_option :skip_rspec, type: :boolean, default: false
-  method_option :skip_rubocop, type: :boolean, default: false
-  def build
-    bundle("--quiet")
-    rubocop("--auto-correct") unless options["skip_rubocop"]
-    rspec unless options["skip_rspec"]
   end
 
   def method_missing(engine_or_gem, *args)

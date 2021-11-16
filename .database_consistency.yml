@@ -1,0 +1,21 @@
+ActiveStorage::Attachment:
+  enabled: false
+
+ActiveStorage::Blob:
+  enabled: false
+
+ActiveStorage::VariantRecord:
+  enabled: false
+
+PaperTrail::Version:
+  enabled: false
+
+CoreBy::User:
+  index_users_on_external_id:
+    enabled: false
+  index_users_on_remember_me_token:
+    enabled: false
+  index_users_on_reset_password_token:
+    enabled: false
+  index_users_on_unlock_token:
+    enabled: false

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_16_095008) do
+ActiveRecord::Schema.define(version: 2021_02_24_091411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,7 +46,14 @@ ActiveRecord::Schema.define(version: 2021_02_16_095008) do
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
     t.datetime "created_at", null: false
+    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -62,10 +69,23 @@ ActiveRecord::Schema.define(version: 2021_02_16_095008) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.uuid "external_id", default: -> { "uuid_generate_v4()" }, null: false
+    t.string "crypted_password"
+    t.string "salt"
+    t.string "remember_me_token"
+    t.datetime "remember_me_token_expires_at"
+    t.string "reset_password_token"
+    t.datetime "reset_password_token_expires_at"
+    t.datetime "reset_password_token_generated_at"
+    t.integer "failed_logins_count", default: 0, null: false
+    t.datetime "lock_expires_at"
+    t.string "unlock_token"
     t.index "lower((email)::text)", name: "index_users_on_email", unique: true
     t.index "lower((login)::text)", name: "index_users_on_login", unique: true
     t.index ["external_id"], name: "index_users_on_external_id", unique: true
     t.index ["phone"], name: "index_users_on_phone", unique: true
+    t.index ["remember_me_token"], name: "index_users_on_remember_me_token", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
   create_table "versions", force: :cascade do |t|
@@ -81,4 +101,5 @@ ActiveRecord::Schema.define(version: 2021_02_16_095008) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
 end
