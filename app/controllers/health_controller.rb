@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class HealthController < CoreBy::BaseController
+class HealthController < ApplicationController
   def live
     # check master db connection
     ActiveRecord::Base.connection.execute("select 1;")

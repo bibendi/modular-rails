@@ -142,4 +142,5 @@ end
 
 path "engines" do
   engine "core_by"
+  engine "auth_by"
 end

@@ -1,0 +1,9 @@
+test:
+  primary:
+    encoding: unicode
+    url: <%= ENV["DATABASE_URL"] + "/vicinity_auth_by" %>
+    pool: <%= ENV["DB_POOL_SIZE"] || 5 %>
+  statistics:
+    encoding: unicode
+    url: <%= ENV["TIMESCALE_URL"] + "/vicinity_auth_by_statistics" %>
+    pool: <%= ENV["RAILS_MAX_THREADS"] { 5 } %>

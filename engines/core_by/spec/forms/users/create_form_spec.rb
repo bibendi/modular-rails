@@ -21,18 +21,4 @@ describe CoreBy::Users::CreateForm do
   it "publishes event" do
     expect { subject.save }.to have_published_event(CoreBy::Users::Created)
   end
-
-  context "when phone is invalid" do
-    before { params[:phone] = "000123" }
-
-    it { expect(subject.save).to be false }
-    it { expect { subject.save }.not_to have_published_event(CoreBy::Users::Created) }
-  end
-
-  context "when phone is not provided" do
-    before { params.delete(:phone) }
-
-    it { expect(subject.save).to be false }
-    it { expect { subject.save }.not_to have_published_event(CoreBy::Users::Created) }
-  end
 end

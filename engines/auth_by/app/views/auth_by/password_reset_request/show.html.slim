@@ -1,0 +1,17 @@
+.columns
+  .column
+    | &nbsp;
+  .column
+    .content
+      h3 Trouble Logging In?
+
+    = form_tag forgot_path, method: :put do
+      .field
+        label.label E-mail
+        .control
+          = text_field_tag :email, params[:email], class: "input", required: true
+      .field
+        .control
+          = submit_tag "Request password reset", class: "button is-link is-fullwidth"
+  .column
+    | &nbsp;

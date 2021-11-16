@@ -1,0 +1,4 @@
+test:
+  store_type: memory
+  access_exp_time: 60 # 1 minute
+  refresh_exp_time: 3600 # 1 hour

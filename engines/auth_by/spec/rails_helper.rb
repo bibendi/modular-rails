@@ -1,0 +1,77 @@
+# frozen_string_literal: true
+
+# Engine root is used by rails_configuration to correctly
+# load fixtures and support files
+ENGINE_ROOT = Pathname.new(File.expand_path("..", __dir__))
+
+ENV["RAILS_ENV"] = "test"
+ENV["BOOTSNAP_CACHE_DIR"] ||= File.join(ENGINE_ROOT, "spec", "internal", "tmp", "cache")
+
+require "bootsnap/setup"
+
+require "combustion"
+require "common/testing/ext/combustion_bundler_patch"
+require "common/testing/ext/combustion_reset_patch"
+
+begin
+  Combustion.initialize! :active_record, :active_job, :action_mailer, :action_controller, :active_storage,
+    database_reset: ENV["DB_RESET"] == "1", bundler_groups: :auth_by do
+    config.logger = Logger.new(nil)
+    config.log_level = :fatal
+
+    config.autoloader = :zeitwerk
+
+    # Always use test adapter for active_job
+    config.active_job.queue_adapter = :test
+
+    # Always use test service to active_storage
+    config.active_storage.service = :test
+
+    # Enable verbose logging for active_record
+    # config.active_record.verbose_query_logs = true
+    config.i18n.available_locales = [:en, :ru]
+  end
+rescue => e
+  # Fail fast if application couldn't be loaded
+  if /database "\w+" does not exist/.match?(e.message)
+    warn "💥 Database must be reseted by passing env variable `DB_RESET=1`"
+  else
+    warn "💥 Failed to load the app: #{e.message}\n#{e.backtrace.take(5).join("\n")}"
+  end
+
+  exit(1)
+end
+
+# if you need url helpers (e.g. with active storage)
+Rails.application.default_url_options[:host] = "localhost"
+AuthBy::Engine.routes.default_url_options[:host] = "localhost"
+# Imgproxy.configure do |config|
+#   config.endpoint = "http://imgproxy"
+# end
+
+require "common/testing/rails_configuration"
+
+# Disable PaperTrail to speed up tests
+require "paper_trail/frameworks/rspec"
+
+# Downstream helpers to test events
+require "downstream/rspec"
+
+# action_policy helpers
+# require "action_policy/rspec"
+# require "action_policy/rspec/dsl"
+
+# core_by shared contexts
+require "core_by/testing/shared_contexts"
+
+# core_by shared examples
+require "core_by/testing/shared_examples"
+
+# Additional RSpec configuration
+#
+# RSpec.configure do |config|
+#   config.after(:suite) do
+#     # Cleanup attachments generated during tests
+#     FileUtils.rm_rf(ActiveStorage::Blob.service.root)
+#   end
+# end

@@ -1,0 +1,21 @@
+.columns
+  .column
+    | &nbsp;
+  .column
+    .content
+      h2.has-text-centered Create new password
+
+    = form_tag reset_path(params[:token]), method: :put do
+      .field
+        label.label Password
+        .control
+          = password_field_tag :password, nil, class: "input", required: true
+      .field
+        label.label Re-Enter Password
+        .control
+          = password_field_tag :password_confirmation, nil, class: "input", required: true
+      .field
+        .control
+          = submit_tag "Reset password", class: "button is-link is-fullwidth"
+  .column
+    | &nbsp;
