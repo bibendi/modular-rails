@@ -22,7 +22,8 @@ class RoleConstraint
   def matches?(request)
     user_id = request.session[:user_id] || user_id_from_jwt(request)
     return false unless user_id
-    !CoreBy::User.select(:role).find_by(role: roles, id: user_id).nil?
+    user = CoreBy::SDK::Users.find_by_id(user_id)
+    user && roles.include?(user.role)
   rescue JWTSessions::Errors::Unauthorized
     false
   end

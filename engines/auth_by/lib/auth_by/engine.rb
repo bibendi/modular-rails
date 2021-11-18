@@ -29,7 +29,7 @@ module AuthBy
 
     initializer "auth_by.subscribers" do |_app|
       ActiveSupport.on_load "downstream-events" do |store|
-        store.subscribe(CoreBy::Users::OnDiscarded::FlushSessions, async: true)
+        store.subscribe(CoreBy::Events::Users::OnDiscarded::FlushSessions, async: true)
       end
     end
   end

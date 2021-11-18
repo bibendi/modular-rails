@@ -40,5 +40,6 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", rails_version
   s.add_dependency "rails-i18n", "~> 6.0"
   s.add_dependency "redis-mutex", "~> 4.0"
+  s.add_dependency "resonad", "~> 1.4"
   s.add_dependency "schked", "~> 0.3"
 end

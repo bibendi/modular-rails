@@ -2,7 +2,7 @@
 
 module CoreBy
   module Users
-    class Discard < BaseService
+    class Discard < Base::Service
       param :user
 
       def call
@@ -11,7 +11,7 @@ module CoreBy
         user.transaction do
           user.discard!
 
-          Downstream.publish(Discarded.new(user: user))
+          Downstream.publish(Events::Users::Discarded.new(user: user))
         end
       end
     end

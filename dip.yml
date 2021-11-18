@@ -62,6 +62,11 @@ interaction:
     service: ruby
     command: bundle exec rubocop
 
+  packwerk:
+    description: Run Packwerk commands
+    service: ruby
+    command: bundle exec packwerk
+
   engem:
     description: Tool for running commands within local Engines or Gems
     service: ruby

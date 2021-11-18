@@ -29,8 +29,10 @@ module AuthBy
 
         if form.save
           tokens = form.user.generate_jwt_tokens
+          core_user = CoreBy::SDK::Users.find_by_id(form.user.id)
+
           {
-            user: form.user.becomes(CoreBy::User),
+            user: core_user.to_record,
             access_token: tokens[:access],
             refresh_token: tokens[:refresh]
           }

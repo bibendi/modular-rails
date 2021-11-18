@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module AuthBy
-  class ResetPasswordRequest < CoreBy::BaseService
+  class ResetPasswordRequest < CoreBy::Base::Service
     param :user
 
     def call

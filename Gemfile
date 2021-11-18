@@ -85,6 +85,9 @@ group :development, :test do
   # == Security/Audit
   # Check for known CVE in gems
   gem "bundler-audit", require: false
+
+  # Linter to enforce boundaries
+  gem "packwerk", require: false
 end
 
 group :development do

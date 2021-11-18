@@ -14,7 +14,7 @@ The would allow us to easily overwrite the engine's data at the root app level
 That's how to use the locales for `subject` fields:
 
 ```ruby
-class MyMailer < CoreBy::BaseMailer
+class MyMailer < CoreBy::Base::Mailer
   def mailer_method
     mail subject: t(".subject")
     # this is a shortcut for

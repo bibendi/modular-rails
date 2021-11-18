@@ -8,7 +8,12 @@ describe AuthBy::Mutations::RefreshToken do
   let(:query) do
     <<~GRAPHQL
       mutation refreshToken($refreshToken: String!) {
-        refreshToken(refreshToken: $refreshToken) { accessToken }
+        refreshToken(refreshToken: $refreshToken) {
+          accessToken
+          user {
+            id
+          }
+        }
       }
     GRAPHQL
   end
@@ -29,10 +34,11 @@ describe AuthBy::Mutations::RefreshToken do
       expect(JWTSessions::Session.new.session_exists?(data["accessToken"], "access")).to be true
       expect(JWTSessions::Session.new.session_exists?(tokens[:access], "access")).to be false
       expect(JWTSessions::Session.new.session_exists?(tokens[:refresh], "refresh")).to be true
+      expect(data.dig("user", "id")).to eq user.external_id
     end
 
     context "when user is discarded" do
-      before { user.discard! }
+      before { CoreBy::SDK::Users.discard!(user.id) }
 
       it { expect(errors[0]).to eq "Unauthenticated access to the field refreshToken" }
       it { expect(reasons[0]).to eq :user_not_found }

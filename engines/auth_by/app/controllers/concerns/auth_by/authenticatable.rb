@@ -14,8 +14,10 @@ module AuthBy
     def current_user
       return @current_user if defined?(@current_user)
 
-      @current_user = jwt_auth.current_user || login_from_session || login_from_other_sources || nil
-      @current_user = @current_user&.becomes(CoreBy::User)
+      user = jwt_auth.current_user || login_from_session || login_from_other_sources || nil
+      return unless user
+
+      @current_user = user
     end
 
     private

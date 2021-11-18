@@ -2,7 +2,7 @@
 
 module CoreBy
   module Api
-    class JobStatusesController < BaseController
+    class JobStatusesController < Base::ApplicationController
       def show
         render json: ActiveJob::Status.get(params.require(:id))
       end

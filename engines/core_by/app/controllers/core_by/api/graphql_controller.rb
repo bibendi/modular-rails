@@ -2,7 +2,7 @@
 
 module CoreBy
   module Api
-    class GraphQLController < BaseController
+    class GraphQLController < Base::ApplicationController
       def execute
         variables = ensure_hash(params[:variables]).compact
         query = params[:query]

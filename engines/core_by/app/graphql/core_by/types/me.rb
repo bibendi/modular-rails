@@ -8,7 +8,7 @@ module CoreBy
         Use it to get user's personal information and the related entities
       DESC
 
-      field :user, User, "Current user's data", null: false
+      field :user, Types::User, "Current user's data", null: false
 
       def user
         current_user

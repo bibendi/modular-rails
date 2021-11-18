@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module AuthBy
-  class UserMailer < CoreBy::BaseMailer
+  class UserMailer < CoreBy::Base::Mailer
     def reset_password_instructions(token)
       @reset_password_token = token
 

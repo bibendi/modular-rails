@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-class TestJobStatus < CoreBy::BaseJob
+class TestJobStatus < CoreBy::Base::Job
   track_status
 
   def perform

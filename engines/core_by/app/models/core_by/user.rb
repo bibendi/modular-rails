@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module CoreBy
-  class User < BaseRecord
+  class User < Base::ApplicationRecord
     extend AttachmentsVariants
 
     include SoftDeletable

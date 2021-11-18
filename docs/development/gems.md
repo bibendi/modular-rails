@@ -104,10 +104,10 @@ See the [configuration article](../configs.md) for more.
 
 ### `dry-initializer`
 
-We use [Dry Initializer](https://github.com/dry-rb/dry-initializer) to standardize Service Objects (it's included into `CoreBy::BaseService`), e.g.:
+We use [Dry Initializer](https://github.com/dry-rb/dry-initializer) to standardize Service Objects (it's included into `CoreBy::Base::Service`), e.g.:
 
 ```ruby
-class MyService < CoreBy::BaseService
+class MyService < CoreBy::Base::Service
   # define params and options
   param :user
   option :some_type
@@ -160,7 +160,7 @@ bundle exec schked start
 [redis-mutex](https://github.com/kenn/redis-mutex) is a distributed mutex using Redis. Used in service objects to prevent double runs of the service with identical arguments at the same time.
 
 ```ruby
-class Compose < CoreBy::BaseService
+class Compose < CoreBy::Base::Service
   param :room
 
   def call

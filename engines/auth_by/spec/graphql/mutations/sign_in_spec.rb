@@ -11,6 +11,9 @@ describe AuthBy::Mutations::SignIn do
         signIn(input: $input) {
           accessToken
           refreshToken
+          user {
+            id
+          }
         }
       }
     GRAPHQL
@@ -21,6 +24,7 @@ describe AuthBy::Mutations::SignIn do
   it "generates JWT tokens" do
     expect(JWTSessions::Session.new.session_exists?(data["accessToken"], "access")).to be true
     expect(JWTSessions::Session.new.session_exists?(data["refreshToken"], "refresh")).to be true
+    expect(data.dig("user", "id")).to eq user.external_id
   end
 
   context "when email is invalid" do

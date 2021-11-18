@@ -36,5 +36,9 @@ module CoreBy
         FactoryBot.definition_file_paths.unshift engine_factories_path
       end
     end
+
+    rake_tasks do
+      load "core_by/tasks/graphql.rake"
+    end
   end
 end

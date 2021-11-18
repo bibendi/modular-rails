@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module CoreBy
-  class NotifySubscriptionsJob < BaseJob
+  class NotifySubscriptionsJob < Base::Job
     def perform(name, payload, object)
       ApplicationSchema
         .subscriptions

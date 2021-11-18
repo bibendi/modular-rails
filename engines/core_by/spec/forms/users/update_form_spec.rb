@@ -22,7 +22,7 @@ describe CoreBy::Users::UpdateForm do
   end
 
   it "publishes event" do
-    expect { subject }.to have_published_event(CoreBy::Users::Updated)
+    expect { subject }.to have_published_event(CoreBy::Events::Users::Updated)
       .with(
         user: user,
         changed_fields: a_collection_including("login", "first_name", "last_name")
@@ -33,13 +33,13 @@ describe CoreBy::Users::UpdateForm do
     before { params[:login] = nil }
 
     it { is_expected.to be false }
-    it { expect { subject }.not_to have_published_event(CoreBy::Users::Updated) }
+    it { expect { subject }.not_to have_published_event(CoreBy::Events::Users::Updated) }
   end
 
   context "when login is not provided" do
     before { params.delete(:login) }
 
     it { is_expected.to be true }
-    it { expect { subject }.to have_published_event(CoreBy::Users::Updated) }
+    it { expect { subject }.to have_published_event(CoreBy::Events::Users::Updated) }
   end
 end

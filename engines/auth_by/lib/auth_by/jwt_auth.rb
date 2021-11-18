@@ -25,7 +25,8 @@ module AuthBy
         if request_has_token?
           begin
             authorize_access_request!
-            User.find_by_id(payload["user_id"])
+            user = CoreBy::SDK::Users.find_by_id(payload["user_id"])
+            return user unless user&.disabled?
           rescue JWTSessions::Errors::Unauthorized => e
             if /signature has expired/i.match?(e.message)
               raise ExpiredToken
