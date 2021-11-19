@@ -102,7 +102,7 @@ executors:
 
   rails:
     docker:
-      - image: circleci/ruby:2.7.2
+      - image: circleci/ruby:2.7.4
       - image: timescale/timescaledb:2.1.0-pg13
         environment:
           POSTGRES_PASSWORD: password
