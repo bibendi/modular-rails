@@ -49,7 +49,7 @@ commands:
             - run:
                 name: "[<< parameters.target >>] bundle install"
                 command: |
-                  .circleci/is-dirty << parameters.target >> || bundle exec bin/engem << parameters.target >> bundle install --frozen
+                  .circleci/is-dirty << parameters.target >> || bundle exec bin/engem << parameters.target >> bundle install
       - when:
           condition: << parameters.brakeman >>
           steps:
