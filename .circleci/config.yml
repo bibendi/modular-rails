@@ -195,6 +195,16 @@ jobs:
           command: |
             bundle exec rubocop
 
+  packwerk:
+    executor: ruby
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Packwerk check
+          command: |
+            bundle exec packwerk check
+
   test:
     parallelism: 1
     executor: rails
