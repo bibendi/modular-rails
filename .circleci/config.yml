@@ -14,6 +14,9 @@ workflows:
       - rubocop:
           requires:
             - bundle_install
+      - packwerk:
+          requires:
+            - bundle_install
       - test:
           requires:
             - bundle_install
