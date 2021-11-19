@@ -1,0 +1,311 @@
+version: 2.1
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - checkout
+      - bundle_install:
+          requires:
+            - checkout
+      - bundle_audit:
+          requires:
+            - bundle_install
+      - rubocop:
+          requires:
+            - bundle_install
+      - test:
+          requires:
+            - bundle_install
+      - linters:
+          requires:
+            - bundle_install
+      - gems:
+          requires:
+            - bundle_install
+      - engines:
+          requires:
+            - bundle_install
+
+commands:
+  engem:
+    description: Run engine/gem build
+    parameters:
+      target:
+        type: string
+      bundler:
+        type: boolean
+        default: false
+      brakeman:
+        type: boolean
+        default: false
+      rspec:
+        type: boolean
+        default: true
+    steps:
+      - when:
+          condition: << parameters.bundler >>
+          steps:
+            - run:
+                name: "[<< parameters.target >>] bundle install"
+                command: |
+                  .circleci/is-dirty << parameters.target >> || bundle exec bin/engem << parameters.target >> bundle install --frozen
+      - run:
+          name: "[<< parameters.target >>] rubocop"
+          command: |
+            .circleci/is-dirty << parameters.target >> || bundle exec bin/engem << parameters.target >> rubocop
+      - when:
+          condition: << parameters.brakeman >>
+          steps:
+            - run:
+                name: "[<< parameters.target >>] brakeman"
+                command: |
+                  .circleci/is-dirty << parameters.target >> || bundle exec bin/engem << parameters.target >> brakeman
+      - when:
+          condition: << parameters.rspec >>
+          steps:
+            - run:
+                name: "[<< parameters.target >>] rspec"
+                command: |
+                  .circleci/is-dirty << parameters.target >> || \
+                    bundle exec bin/engem << parameters.target >> \
+                      rspec \
+                        --format RspecJunitFormatter \
+                        --out /home/circleci/project/test-results/rspec.xml \
+                        --format documentation \
+                        --require rspec/instafail \
+                        --format RSpec::Instafail
+
+  prepare_ruby_test_env:
+    description: Prepare external Ruby deps (DB, Redis)
+    steps:
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run: dockerize -wait tcp://localhost:6379 -timeout 1m
+  prepare_databases:
+    description: Prepare databases
+    steps:
+      - run: bundle exec rails db:recreate
+  install_bundler:
+    steps:
+      - run:
+            name: Install Bundler
+            command: gem install bundler -v 2.2.31
+
+executors:
+  ruby:
+    docker:
+      - image: circleci/ruby:2.7.2-node
+    environment:
+      BUNDLE_PATH: /home/circleci/project/vendor/bundle
+      BUNDLER_VERSION: 2.2.31
+      BUNDLE_APP_CONFIG: ./.bundle
+      RAILS_ENV: test
+
+  rails:
+    docker:
+      - image: circleci/ruby:2.7.2-node-browsers
+      - image: timescale/timescaledb:2.1.0-pg13
+        environment:
+          POSTGRES_PASSWORD: password
+      - image: redis:4-alpine
+    environment:
+      BUNDLE_PATH: /home/circleci/project/vendor/bundle
+      BUNDLER_VERSION: 2.2.31
+      BUNDLE_APP_CONFIG: ./.bundle
+      RAILS_ENV: test
+      BOOTSNAP_CACHE_DIR: /home/circleci/project/tmp/bootsnap
+      DATABASE_URL: postgres://postgres:password@localhost:5432
+      TIMESCALE_URL: postgres://postgres:password@localhost:5432
+      REDIS_URL: redis://localhost:6379/0
+      EVENT_PROF: "factory.create,sql.active_record"
+      EAGER_LOAD: "1"
+      DB_RESET: "1"
+      IMGPROXY_ENDPOINT: "http://localhost:3080"
+  docker:
+    docker:
+      - image: docker:20.10.7
+
+jobs:
+  checkout:
+    executor: ruby
+    steps:
+      - restore_cache:
+          keys:
+            - vic-source-v1-{{ .Branch }}-{{ .Revision }}
+            - vic-source-v1-{{ .Branch }}
+            - vic-source-v1
+      - checkout
+      - run:
+          name: Refresh master (for dirty checks)
+          command: git fetch origin master
+      - save_cache:
+          key: vic-source-v1-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - .git
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  bundle_install:
+    executor: ruby
+    steps:
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          keys:
+            - vic-bundle-v1_1-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Install Bundler
+          command: gem install bundler -v 2.2.31
+      - run:
+          name: Set frozen in bundler config
+          command: bundle config set --local frozen 'true'
+      - run:
+          name: Installing bundler dependencies
+          command: bundle check || bundle install
+      - run:
+          name: Clean stale dependencies
+          command: bundle clean
+      - run:
+          name: Install thor (for engem)
+          command: gem install thor
+      - save_cache:
+          key: vic-bundle-v1_1-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - persist_to_workspace:
+          root: .
+          paths:
+            - vendor/bundle
+
+  bundle_audit:
+    executor: ruby
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Bundle audit check
+          command: |
+            bundle exec bundle-audit update && bundle exec bundle-audit check
+
+  rubocop:
+    executor: ruby
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Rubocop check
+          command: |
+            bundle exec rubocop
+
+  test:
+    parallelism: 1
+    executor: rails
+    steps:
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          keys:
+            - vic-bootsnap-v1-{{ .Branch }}-{{ .Revision }}
+            - vic-bootsnap-v1-{{ .Branch }}
+            - vic-bootsnap-v1
+      - prepare_ruby_test_env
+      - prepare_databases
+      - run:
+          name: RSpec (without system tests)
+          command: |
+            bundle exec rspec --tag ~browser \
+                              --format RspecJunitFormatter \
+                              --out test-results/rspec.xml \
+                              --format documentation \
+                              --require rspec/instafail \
+                              --format RSpec::Instafail \
+                              $(circleci tests glob "spec/**/*_spec.rb" | \
+                              circleci tests split --split-by=timings)
+      - save_cache:
+          key: vic-bootsnap-v1-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - /home/circleci/project/tmp/bootsnap
+      - store_test_results:
+          path: test-results
+
+  linters:
+    executor: rails
+    steps:
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          keys:
+            - vic-bootsnap-v1-{{ .Branch }}-{{ .Revision }}
+            - vic-bootsnap-v1-{{ .Branch }}
+            - vic-bootsnap-v1
+      - prepare_ruby_test_env
+      - prepare_databases
+      # run after tests to make sure that schema is up-to-date
+      - run:
+          name: Database Integrity check
+          command: bundle exec rails db:validate_integrity
+      - run:
+          name: Database Consistency check
+          command: bundle exec rails db:consistency_check
+      - run:
+          name: Ensure seeds are valid
+          command: bundle exec rails db:seed
+      - save_cache:
+          key: vic-bootsnap-v1-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - /home/circleci/project/tmp/bootsnap
+
+  gems:
+    executor: rails
+    steps:
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          keys:
+            - vic-bootsnap-v1-{{ .Branch }}-{{ .Revision }}
+            - vic-bootsnap-v1-{{ .Branch }}
+            - vic-bootsnap-v1
+      - install_bundler
+      - engem:
+          target: common-factory
+          bundler: true
+          rspec: false
+      - engem:
+          target: common-rubocop
+          bundler: true
+      - engem:
+          target: common-testing
+          bundler: true
+          rspec: false
+      - save_cache:
+          key: vic-bootsnap-v1-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - /home/circleci/project/tmp/bootsnap
+      - store_test_results:
+          path: test-results
+
+  engines:
+    executor: rails
+    steps:
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          keys:
+            - vic-bootsnap-v1-{{ .Branch }}-{{ .Revision }}
+            - vic-bootsnap-v1-{{ .Branch }}
+            - vic-bootsnap-v1
+      - install_bundler
+      - engem:
+          target: core_by
+          brakeman: true
+      - engem:
+          target: auth_by
+          brakeman: true
+      - save_cache:
+          key: vic-bootsnap-v1-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - /home/circleci/project/tmp/bootsnap
+      - store_test_results:
+          path: test-results
