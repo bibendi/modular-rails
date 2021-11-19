@@ -50,10 +50,6 @@ commands:
                 name: "[<< parameters.target >>] bundle install"
                 command: |
                   .circleci/is-dirty << parameters.target >> || bundle exec bin/engem << parameters.target >> bundle install --frozen
-      - run:
-          name: "[<< parameters.target >>] rubocop"
-          command: |
-            .circleci/is-dirty << parameters.target >> || bundle exec bin/engem << parameters.target >> rubocop
       - when:
           condition: << parameters.brakeman >>
           steps:
