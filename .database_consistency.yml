@@ -19,3 +19,7 @@ CoreBy::User:
     enabled: false
   index_users_on_unlock_token:
     enabled: false
+
+# Basically, this model should be separate and don't use shared table with CoreBy::User model.
+AuthBy::User:
+  enabled: false
