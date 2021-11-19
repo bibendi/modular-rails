@@ -206,7 +206,7 @@ jobs:
       - run:
           name: Packwerk check
           command: |
-            bundle exec packwerk check
+            bundle exec packwerk validate && bundle exec packwerk check
 
   test:
     parallelism: 1
