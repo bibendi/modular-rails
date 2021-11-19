@@ -75,11 +75,11 @@ field :foo, String, null: false, user_checks: {completed: true}
 
 The above field will check `current_user.completed?` method when authorizing an access.
 
-- Use `AttachmentURLField` extension for Active Storage attachments:
+- Use `AttachmentFieldExt` extension for Active Storage attachments:
 
 ```ruby
-field :avatar_url, CoreBy::Types::URLString::Types::URLString, "URL of user's avatar", null: true do
-  extension FieldExtensions::AttachmentURLField, variant: {enum: Enums::AvatarVariant, required: true}
+field :avatar_url, CoreBy::Types::URLString, "URL of user's avatar", null: true do
+  extension CoreBy::Schema::AttachmentFieldExt, variant: {enum: Enums::AvatarVariant, required: true}
 end
 ```
 
@@ -93,8 +93,8 @@ The name of the attachment is resolved automatically from the field name
 You can specify the attachment name explicitly:
 
 ```ruby
-field :avatar_url, CoreBy::Types::URLString::Types::URLString, "URL of user's avatar", null: true do
-  extension FieldExtensions::AttachmentURLField, attachment: :avatar
+field :avatar_url, CoreBy::Types::URLString, "URL of user's avatar", null: true do
+  extension CoreBy::Schema::AttachmentFieldExt, attachment: :avatar
 end
 ```
 

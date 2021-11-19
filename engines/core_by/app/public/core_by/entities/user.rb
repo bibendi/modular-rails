@@ -18,10 +18,9 @@ module CoreBy
 
       # We need this method because graphql types are relies on active record models.
       # Basically, we can use send an entity to graphql type, but we should not do that because of:
-      # - we have to be insync with graphql type (have the same attributes)
-      # - relay connections
-      # We need implement Rubocop cop so that a developer cannot use this method anywhere.
-      # Perhaps, we can use some extenstion for that https://github.com/rmosolgo/graphql-ruby/blob/07fa8715abc5abbd91ab6d522112791952450454/lib/graphql/schema/field.rb#L706
+      # - we have to be insync with graphql type (i.e., having the same attributes)
+      # - we don't want implement new type of relay connections
+      # We should implement Rubocop cop so that a developer cannot use this method anywhere.
       def to_record
         user
       end

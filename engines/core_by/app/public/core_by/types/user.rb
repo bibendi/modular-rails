@@ -17,7 +17,7 @@ module CoreBy
       field :discarded, Boolean, "True for deleted users", null: false, method: :discarded?
       field :myself, Boolean, "Whether this user is the current user", null: false
       field :avatar_url, Types::URLString, "URL of user's avatar", null: true do
-        extension Schema::FieldExtensions::AttachmentURLField, variant: {enum: Enums::AvatarVariant, required: true}
+        extension Schema::AttachmentFieldExt, variant: {enum: Enums::AvatarVariant, required: true}
       end
 
       def role
