@@ -13,8 +13,8 @@ module LogrageContext
   end
 end
 
-ActiveSupport.on_load("core_by/base_controller") { include LogrageContext }
-ActiveSupport.on_load("core_by/api/base_controller") { include LogrageContext }
+ActiveSupport.on_load("core_by/base/application_controller") { include LogrageContext }
+ActiveSupport.on_load("core_by/base/api_controller") { include LogrageContext }
 
 Rails.application.configure do
   lograge_ignore_params = (%w[controller action format id graphql] + config.filter_parameters.map(&:to_s)).uniq
