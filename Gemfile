@@ -118,6 +118,9 @@ group :development do
   #   rails r 'puts CoreBy::ApplicationSchema.to_definition' > tmp/gql_schema_new
   #   bundle exec schema_comparator compare tmp/gql_schema_old tmp/gql_schema_new
   gem "graphql-schema_comparator"
+
+  # Use Steep master, since rbs_collection support hasn't been released yet
+  gem "steep", github: "soutaro/steep"
 end
 
 group :test do

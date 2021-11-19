@@ -10,6 +10,8 @@ Gem::Specification.new do |s|
   s.add_dependency "brakeman", "~> 5.0"
   s.add_dependency "bundler", ">= 2.0"
   s.add_dependency "rake", "~> 13.0"
+  s.add_dependency "steep"
+  s.add_dependency "rbs"
 
   # Internal
   s.add_dependency "common-factory"

@@ -1,0 +1,12 @@
+target :lib do
+  # Load signatures from sig/ folder
+  signature "sig"
+  # Check only from app/ and lib/
+  check "lib"
+
+  ignore "lib/core_by/testing/*.rb"
+  ignore "lib/core_by/seeds/*.rb"
+  ignore "lib/core_by/graphql/*.rb"
+
+  collection_config "../../rbs_collection.yaml"
+end

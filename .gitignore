@@ -54,3 +54,5 @@ dip.override.yml
 
 # We cannot dump TimescaleDB schema
 /db/statistics_schema.rb
+
+/.gem_rbs_collection

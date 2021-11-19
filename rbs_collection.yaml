@@ -1,0 +1,40 @@
+# Download sources
+sources:
+  - name: ruby/gem_rbs_collection
+    remote: https://github.com/ruby/gem_rbs_collection.git
+    revision: main
+    repo_dir: gems
+
+# A directory to install the downloaded RBSs
+path: .gem_rbs_collection
+
+gems:
+  - name: pathname
+  - name: logger
+  - name: mutex_m
+  - name: date
+  - name: monitor
+  - name: singleton
+  - name: tsort
+  - name: time
+  - name: set
+  - name: tempfile
+  - name: optparse
+  # Ignores - Gemfile.lock contains them but their RBSs are unnecessary
+  - name: anycable-core
+    ignore: true
+  - name: steep
+    ignore: true
+  - name: nokogiri
+    ignore: true
+  - name: ast
+    ignore: true
+  - name: rainbow
+    ignore: true
+  - name: listen
+    ignore: true
+
+  # Skip loading rbs gem's RBS.
+  # It's unnecessary if you don't use rbs as a library.
+  - name: rbs
+    ignore: true

@@ -1,0 +1,9 @@
+module CoreBy
+  module ActiveStorage
+    def attachment_url: (::ActiveStorage::Attachment, ?variant: Symbol?, ?force_internal_host: bool) -> String?
+    def setup_disk_host: ((Symbol | nil) variant, bool force_internal_host) -> void
+    def disk_host: -> String
+    def internal_disk_host: -> String
+    def signed_cdn_url: (::ActiveStorage::Attachment) -> String
+  end
+end

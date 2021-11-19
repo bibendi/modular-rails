@@ -1,0 +1,23 @@
+class Rails::Engine
+  def self.config: -> untyped
+  def self.root: -> Pathname
+  def self.initializer: (String) ?{ (Rails::Application) -> void } -> void
+end
+
+module ActiveStorage
+  def self.content_types_allowed_inline: -> Array[String]
+  def self.content_types_to_serve_as_binary: -> Array[String]
+  def self.binary_content_type: -> String
+
+  class Attachment
+    def attached?: -> bool
+    def record: -> ActiveRecord::Base
+    def service: -> untyped
+    def name: -> String
+    def url: -> String
+    def key: -> String
+    def filename: -> String
+    def content_type: -> String
+    def blob: -> Blob
+  end
+end

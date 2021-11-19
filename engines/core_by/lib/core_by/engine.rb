@@ -27,7 +27,8 @@ module CoreBy
       Schked.config.paths << root.join("config", "schedule.rb")
 
       ActiveSupport.on_load(:active_record) do
-        ::ActiveRecord::Type.register(:stripped_string, ActiveRecord::Types::StrippedString)
+        # Add empty block 'cause RBS for ActiveRecord::Type.register requires it 🤷🏻‍♂️
+        ::ActiveRecord::Type.register(:stripped_string, ActiveRecord::Types::StrippedString) {}
       end
 
       engine_factories_path = root.join("spec", "factories")
