@@ -8,7 +8,7 @@ module CoreBy
           def self.call(payload)
             user = payload.user
 
-            user.becomes(AuthBy::User).flush_jwt_tokens
+            AuthBy::User.find(user.id).flush_jwt_tokens
           end
         end
       end

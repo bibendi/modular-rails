@@ -25,7 +25,14 @@ module CoreBy
         user
       end
 
-      private
+      def ==(other)
+        super ||
+          other.instance_of?(self.class) &&
+            !user.nil? &&
+            other.user == user
+      end
+
+      protected
 
       attr_reader :user
     end

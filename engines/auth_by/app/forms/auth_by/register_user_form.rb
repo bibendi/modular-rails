@@ -2,7 +2,7 @@
 
 module AuthBy
   class RegisterUserForm < CoreBy::Base::Form
-    attr_reader :user
+    attr_reader :user, :entity_user
 
     attributes :email, :password, :password_confirmation
 
@@ -11,7 +11,7 @@ module AuthBy
 
     after_save do
       Downstream.publish(
-        AuthBy::Events::Users::Registered.new(user: user)
+        AuthBy::Events::Users::Registered.new(user: entity_user)
       )
     end
 
@@ -22,7 +22,8 @@ module AuthBy
         return false
       end
 
-      @user = User.find(result.value.id)
+      @entity_user = result.value
+      @user = User.find(entity_user.id)
       user.change_password!(password)
     rescue ActiveRecord::RecordNotUnique
       errors.add(:base, "User already exists")

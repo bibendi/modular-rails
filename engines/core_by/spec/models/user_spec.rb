@@ -3,6 +3,10 @@
 require "rails_helper"
 
 describe CoreBy::User, :user do
+  it "uses entity" do
+    expect(build(:user).to_entity).to be_instance_of(CoreBy::Entities::User)
+  end
+
   it "saves user factory" do
     user = build(:user)
     expect(user.save).to be true

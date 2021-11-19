@@ -7,6 +7,8 @@ module CoreBy
     include SoftDeletable
     include WithExternalId
 
+    self.entity = Entities::User
+
     %i[login email phone].each do |stripped_column|
       attribute stripped_column, :stripped_string
     end

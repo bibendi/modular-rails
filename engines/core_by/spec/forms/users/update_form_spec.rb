@@ -24,7 +24,7 @@ describe CoreBy::Users::UpdateForm do
   it "publishes event" do
     expect { subject }.to have_published_event(CoreBy::Events::Users::Updated)
       .with(
-        user: user,
+        user: user.to_entity,
         changed_fields: a_collection_including("login", "first_name", "last_name")
       )
   end
