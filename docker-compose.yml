@@ -12,11 +12,11 @@ services:
       target: development
       args:
         # Keep versions in sync with CircleCI config
-        RUBY_VERSION: '2.7.2'
+        RUBY_VERSION: '2.7.4'
         NODE_MAJOR: '14'
         POSTGRES_VERSION: '13'
         BUNDLER_VERSION: '2.2.31'
-    image: modular_rails-web:3.6.0
+    image: modular_rails-web:3.6.1
     # This command allows RubyMine to download application gems, because it needs a running container
     command: tail -f /dev/null
     environment: &ruby-environment

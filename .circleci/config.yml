@@ -90,7 +90,7 @@ commands:
 executors:
   ruby:
     docker:
-      - image: circleci/ruby:2.7.2-node
+      - image: circleci/ruby:2.7.4
     environment:
       BUNDLE_PATH: /home/circleci/project/vendor/bundle
       BUNDLER_VERSION: 2.2.31
@@ -99,7 +99,7 @@ executors:
 
   rails:
     docker:
-      - image: circleci/ruby:2.7.2-node-browsers
+      - image: circleci/ruby:2.7.2
       - image: timescale/timescaledb:2.1.0-pg13
         environment:
           POSTGRES_PASSWORD: password
