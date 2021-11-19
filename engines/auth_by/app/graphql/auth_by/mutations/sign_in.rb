@@ -16,7 +16,7 @@ module AuthBy
 
       argument :input, SignInInput, "Credentials input", required: true
 
-      field :user, CoreBy::Types::User, null: true, extensions: [CoreBy::Schema::EntityFieldExt]
+      field :user, CoreBy::Types::User, null: true
       field :access_token, String, "JWT access token", null: true
       field :refresh_token, String, "JWT refresh token", null: true
 

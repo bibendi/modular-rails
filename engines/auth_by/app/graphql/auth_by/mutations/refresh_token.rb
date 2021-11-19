@@ -11,7 +11,7 @@ module AuthBy
 
       argument :refresh_token, String, "JWT refresh token", required: true
 
-      field :user, CoreBy::Types::User, null: true, extensions: [CoreBy::Schema::EntityFieldExt]
+      field :user, CoreBy::Types::User, null: true
       field :access_token, String, "JWT access token", null: true
 
       def resolve(refresh_token:)

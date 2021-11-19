@@ -5,6 +5,8 @@ module CoreBy
     class Object < ::GraphQL::Schema::Object
       include ::ActionPolicy::GraphQL::Behaviour
       include ::GraphQL::FragmentCache::Object
+      # This module should be included the last
+      include CoreBy::GraphQL::EntityBehaviour
 
       field_class Field
 

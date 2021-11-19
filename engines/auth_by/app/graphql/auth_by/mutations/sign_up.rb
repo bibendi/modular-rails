@@ -19,7 +19,7 @@ module AuthBy
 
       argument :input, SignUpInput, required: true
 
-      field :user, CoreBy::Types::User, null: true, extensions: [CoreBy::Schema::EntityFieldExt]
+      field :user, CoreBy::Types::User, null: true
       field :access_token, String, "JWT access token", null: true
       field :refresh_token, String, "JWT refresh token", null: true
       field :errors, CoreBy::Types::ValidationErrors, "Errors when a user cannot be created", null: true
