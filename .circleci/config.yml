@@ -14,9 +14,6 @@ workflows:
       - rubocop:
           requires:
             - bundle_install
-      - packwerk:
-          requires:
-            - bundle_install
       - test:
           requires:
             - bundle_install
@@ -198,16 +195,6 @@ jobs:
           command: |
             bundle exec rubocop
 
-  packwerk:
-    executor: ruby
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: Packwerk check
-          command: |
-            bundle exec packwerk validate && bundle exec packwerk check
-
   test:
     parallelism: 1
     executor: rails
@@ -252,6 +239,12 @@ jobs:
       - prepare_ruby_test_env
       - prepare_databases
       # run after tests to make sure that schema is up-to-date
+      - run:
+          name: Packwerk validate
+          command: bundle exec packwerk validate
+      - run:
+          name: Packwerk check
+          command: bundle exec packwerk check
       - run:
           name: Database Integrity check
           command: bundle exec rails db:validate_integrity
