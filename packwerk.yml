@@ -43,6 +43,11 @@ load_paths:
 - lib/ext
 - app/controllers
 - engines/interests/app/models
+- "engines/interests/app/forms"
+- "engines/interests/app/graphql"
+- "engines/interests/app/policies"
+- "engines/interests/app/public"
+- "engines/interests/app/subscribers"
 
 # List of custom associations, if any
 # custom_associations:
