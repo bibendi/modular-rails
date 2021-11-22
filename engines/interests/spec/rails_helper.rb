@@ -55,17 +55,17 @@ require "common/testing/rails_configuration"
 require "paper_trail/frameworks/rspec"
 
 # action_policy helpers
-# require "action_policy/rspec"
-# require "action_policy/rspec/dsl"
+require "action_policy/rspec"
+require "action_policy/rspec/dsl"
 
 # Downstream helpers to test events
-# require "downstream/rspec"
+require "downstream/rspec"
 
 # core_by shared contexts
-# require "core_by/testing/shared_contexts"
+require "core_by/testing/shared_contexts"
 
 # core_by shared examples
-# require "core_by/testing/shared_examples"
+require "core_by/testing/shared_examples"
 
 # Additional RSpec configuration
 #

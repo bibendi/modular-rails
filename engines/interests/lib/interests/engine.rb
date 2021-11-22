@@ -26,5 +26,11 @@ module Interests
         FactoryBot.definition_file_paths.unshift engine_factories_path
       end
     end
+
+    initializer "interests.subscribers" do |_app|
+      ActiveSupport.on_load "downstream-events" do |store|
+        store.subscribe(CoreBy::Events::Users::OnCreated::AddDefaultInterest)
+      end
+    end
   end
 end
