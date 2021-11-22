@@ -8,6 +8,12 @@ module CoreBy
           new(record) if record
         end
 
+        def from_list(records)
+          records.map do |record|
+            new(record)
+          end
+        end
+
         def delegate_attrs(*attrs)
           delegate(*attrs, to: :record)
         end

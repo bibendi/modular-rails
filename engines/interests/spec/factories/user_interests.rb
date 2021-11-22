@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :user_interest, class: "Interests::UserInterest" do
     interest
-    user
+    user_id { create(:user).id }
   end
 end
