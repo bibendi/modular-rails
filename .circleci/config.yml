@@ -305,6 +305,9 @@ jobs:
       - engem:
           target: auth_by
           brakeman: true
+      - engem:
+          target: interests
+          brakeman: true
       - save_cache:
           key: vic-bootsnap-v1-{{ .Branch }}-{{ .Revision }}
           paths:

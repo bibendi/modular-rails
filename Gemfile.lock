@@ -58,6 +58,21 @@ PATH
       rake (~> 13.0)
 
 PATH
+  remote: engines/interests
+  specs:
+    interests (1.0.0)
+      core_by
+      pg (~> 1.0)
+      rails (= 6.1.4.1)
+    interests-dev (1.0.0)
+      bootsnap (~> 1.4)
+      brakeman (~> 5.0)
+      bundler (>= 2.0)
+      common-rubocop
+      common-testing
+      rake (~> 13.0)
+
+PATH
   remote: engines
   specs:
 
@@ -637,6 +652,8 @@ DEPENDENCIES
   debug (~> 1.1)
   google-cloud-storage
   graphql-schema_comparator
+  interests!
+  interests-dev!
   jwt
   listen
   lograge
