@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_24_091411) do
+ActiveRecord::Schema.define(version: 2021_11_22_064326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,22 @@ ActiveRecord::Schema.define(version: 2021_02_24_091411) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "interests", force: :cascade do |t|
+    t.text "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_interests_on_name", unique: true
+  end
+
+  create_table "user_interests", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "interest_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["interest_id"], name: "index_user_interests_on_interest_id"
+    t.index ["user_id", "interest_id"], name: "index_user_interests_on_user_id_and_interest_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -102,4 +118,6 @@ ActiveRecord::Schema.define(version: 2021_02_24_091411) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "user_interests", "interests", on_delete: :cascade
+  add_foreign_key "user_interests", "users", on_delete: :cascade
 end

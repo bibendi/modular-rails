@@ -42,6 +42,7 @@ load_paths:
 - engines/auth_by/app/public
 - lib/ext
 - app/controllers
+- engines/interests/app/models
 
 # List of custom associations, if any
 # custom_associations:
