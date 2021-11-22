@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "rails"
-
+require "core_by"
 require "interests/version"
 
 module Interests
