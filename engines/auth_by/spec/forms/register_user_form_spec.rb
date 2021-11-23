@@ -16,7 +16,7 @@ describe AuthBy::RegisterUserForm do
   end
 
   it "publishes event" do
-    expect { subject.save }.to have_published_event(AuthBy::Events::Users::Registered)
+    expect { subject.save }.to have_published_event(AuthBy::SDK::Users::Registered)
   end
 
   context "when password is short" do

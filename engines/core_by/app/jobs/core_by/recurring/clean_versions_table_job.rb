@@ -3,7 +3,7 @@
 module CoreBy
   module Recurring
     # https://github.com/paper-trail-gem/paper_trail#3d-deleting-old-versions
-    class CleanVersionsTableJob < Base::RecurringJob
+    class CleanVersionsTableJob < SDK::RecurringJob
       queue_as :low_priority
 
       def perform

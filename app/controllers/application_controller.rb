@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class ApplicationController < CoreBy::Base::ApplicationController
+class ApplicationController < CoreBy::SDK::ApplicationController
   layout "application"
 end

@@ -2,7 +2,7 @@
 
 module CoreBy
   module Enums
-    class MembershipState < Schema::Enum
+    class MembershipState < SDK::Schema::Enum
       description "User membership state"
 
       value "ACTIVE", "User is active", value: "active_membership"

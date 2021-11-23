@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module CoreBy
-  class GraphQLChannel < Base::Channel
+  class GraphQLChannel < SDK::ApplicationChannel
     delegate :cable, to: "ActionCable.server.config"
 
     def initialize(connection, identifier, params = {})

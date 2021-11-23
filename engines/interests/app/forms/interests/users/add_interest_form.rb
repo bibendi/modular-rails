@@ -2,7 +2,7 @@
 
 module Interests
   module Users
-    class AddInterestForm < CoreBy::Base::Form
+    class AddInterestForm < CoreBy::SDK::ApplicationForm
       attr_reader :user, :name, :interest
 
       validates :name, presence: true

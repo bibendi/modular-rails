@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module AuthBy
-  class ResetPasswordForm < CoreBy::Base::Form
+  class ResetPasswordForm < CoreBy::SDK::ApplicationForm
     attributes :user, :password, :password_confirmation
 
     validates :password, length: {minimum: 8}, confirmation: true

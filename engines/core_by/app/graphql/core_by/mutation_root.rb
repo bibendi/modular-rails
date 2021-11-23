@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module CoreBy
-  class MutationRoot < Schema::Object
+  class MutationRoot < SDK::Schema::Object
     with_options authenticate: true do
       field :create_direct_upload, mutation: Mutations::CreateDirectUpload
 
@@ -11,5 +11,5 @@ module CoreBy
     end
   end
 
-  ActiveSupport.run_load_hooks("core_by/application_schema/mutation_root", MutationRoot)
+  ActiveSupport.run_load_hooks("core_by/mutation_root", MutationRoot)
 end

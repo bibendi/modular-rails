@@ -7,11 +7,11 @@ module Interests
         extend ActiveSupport::Concern
 
         included do
-          field :interests, Types::Interest.connection_type, "User interests", null: false
+          field :interests, SDK::Types::Interest.connection_type, "User interests", null: false
         end
 
         def interests
-          Interests::Interest
+          Interest
             .joins(:user_interests)
             .where(user_interests: {user_id: object.id})
             .ordered

@@ -2,7 +2,7 @@
 
 module CoreBy
   module Enums
-    class AvatarVariant < Schema::AttachmentVariantEnum
+    class AvatarVariant < SDK::Schema::AttachmentVariantEnum
       variants_for CoreBy::User, :avatar
     end
   end

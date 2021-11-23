@@ -20,3 +20,4 @@ enforce_privacy: false
 dependencies:
   - engines/core_by
   - engines/auth_by
+  - engines/interests

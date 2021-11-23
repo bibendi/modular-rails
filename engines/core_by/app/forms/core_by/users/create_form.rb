@@ -5,7 +5,7 @@ module CoreBy
     class CreateForm < BaseForm
       after_save do
         Downstream.publish(
-          CoreBy::Events::Users::Created.new(user: user)
+          CoreBy::SDK::Users::Created.new(user: user)
         )
       end
 

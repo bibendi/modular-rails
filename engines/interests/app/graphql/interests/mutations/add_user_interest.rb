@@ -2,12 +2,12 @@
 
 module Interests
   module Mutations
-    class AddUserInterest < CoreBy::Schema::Mutation
+    class AddUserInterest < CoreBy::SDK::Schema::Mutation
       description <<~DESC
         Add interest to current user
       DESC
 
-      class AddUserInterestInput < GraphQL::Schema::InputObject
+      class AddUserInterestInput < CoreBy::SDK::Schema::Input
         description "User interests input"
 
         argument :name, String, required: true
@@ -15,9 +15,9 @@ module Interests
 
       argument :input, AddUserInterestInput, required: true
 
-      field :user, CoreBy::Types::User, null: true
-      field :interest, Types::Interest, null: true
-      field :errors, CoreBy::Types::ValidationErrors, null: true
+      field :user, CoreBy::SDK::Types::User, null: true
+      field :interest, SDK::Types::Interest, null: true
+      field :errors, CoreBy::SDK::Types::ValidationErrors, null: true
 
       def resolve(input:)
         authorize! UserInterest, to: :create?

@@ -44,4 +44,4 @@ Lint/Env:
     - '**/testing/*.rb'
     - '**/spec/**/support/**/*'
     - 'lib/generators/**/*'
-    - 'engines/core_by/app/public/core_by/base/application_direct_record.rb'
+    - 'engines/core_by/public/models/core_by/sdk/application_direct_record.rb'

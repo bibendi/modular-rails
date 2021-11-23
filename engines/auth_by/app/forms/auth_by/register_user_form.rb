@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module AuthBy
-  class RegisterUserForm < CoreBy::Base::Form
+  class RegisterUserForm < CoreBy::SDK::ApplicationForm
     attr_reader :user, :entity_user
 
     attributes :email, :password, :password_confirmation
@@ -11,12 +11,12 @@ module AuthBy
 
     after_save do
       Downstream.publish(
-        AuthBy::Events::Users::Registered.new(user: entity_user)
+        AuthBy::SDK::Users::Registered.new(user: entity_user)
       )
     end
 
     def persist!
-      result = CoreBy::SDK::Users.create(email: email)
+      result = CoreBy::SDK::UsersRepository.create(email: email)
       unless result.ok?
         merge_errors!(result.error)
         return false

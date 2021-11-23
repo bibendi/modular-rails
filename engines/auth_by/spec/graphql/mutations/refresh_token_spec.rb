@@ -38,7 +38,7 @@ describe AuthBy::Mutations::RefreshToken do
     end
 
     context "when user is discarded" do
-      before { CoreBy::SDK::Users.discard!(user.id) }
+      before { CoreBy::SDK::UsersRepository.discard!(user.id) }
 
       it { expect(errors[0]).to eq "Unauthenticated access to the field refreshToken" }
       it { expect(reasons[0]).to eq :user_not_found }

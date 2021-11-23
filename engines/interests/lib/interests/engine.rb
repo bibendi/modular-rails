@@ -13,6 +13,7 @@ module Interests
     isolate_namespace Interests
 
     config.autoload_paths += Dir["#{config.root}/app/**/concerns"]
+    config.autoload_paths += Dir["#{config.root}/public/*"]
 
     initializer "interests" do |app|
       app.config.paths["db/migrate"].concat(config.paths["db/migrate"].expanded)
@@ -29,7 +30,7 @@ module Interests
 
     initializer "interests.subscribers" do |_app|
       ActiveSupport.on_load "downstream-events" do |store|
-        store.subscribe(CoreBy::Events::Users::OnCreated::AddDefaultInterest)
+        store.subscribe(CoreBy::SDK::Users::OnCreated::AddDefaultInterest)
       end
     end
   end

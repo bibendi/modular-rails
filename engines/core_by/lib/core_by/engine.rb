@@ -13,6 +13,7 @@ module CoreBy
     isolate_namespace CoreBy
 
     config.autoload_paths += Dir["#{config.root}/app/**/concerns"]
+    config.autoload_paths += Dir["#{config.root}/public/*"]
 
     config.core_by = ActiveSupport::OrderedOptions.new
 

@@ -137,7 +137,7 @@ def engine(name)
       end
 
       # Add development deps to development and test groups
-      gem "#{name}-dev", path: "engines/#{name}", group: [:development, :test]
+      gem "#{name}-dev", path: "engines/#{name}"
     end
   end
 end

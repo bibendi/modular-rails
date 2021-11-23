@@ -13,6 +13,7 @@ module AuthBy
     isolate_namespace AuthBy
 
     config.autoload_paths += Dir["#{config.root}/app/**/concerns"]
+    config.autoload_paths += Dir["#{config.root}/public/*"]
 
     initializer "auth_by" do |app|
       app.config.paths["db/migrate"].concat(config.paths["db/migrate"].expanded)
@@ -29,7 +30,7 @@ module AuthBy
 
     initializer "auth_by.subscribers" do |_app|
       ActiveSupport.on_load "downstream-events" do |store|
-        store.subscribe(CoreBy::Events::Users::OnDiscarded::FlushSessions, async: true)
+        store.subscribe(CoreBy::SDK::Users::OnDiscarded::FlushSessions, async: true)
       end
     end
   end

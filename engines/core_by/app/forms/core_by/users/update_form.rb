@@ -8,7 +8,7 @@ module CoreBy
 
       after_save do
         Downstream.publish(
-          Events::Users::Updated.new(
+          SDK::Users::Updated.new(
             user: user,
             changed_fields: user.saved_changes.keys
           )

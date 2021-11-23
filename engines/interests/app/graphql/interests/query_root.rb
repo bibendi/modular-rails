@@ -5,11 +5,11 @@ module Interests
     extend ActiveSupport::Concern
 
     included do
-      field :interests, Types::Interest.connection_type, "Returns all known interests", null: false
+      field :interests, SDK::Types::Interest.connection_type, "Returns all known interests", null: false
     end
 
     def interests
-      Interests::Interest.ordered
+      Interest.ordered
     end
   end
 end

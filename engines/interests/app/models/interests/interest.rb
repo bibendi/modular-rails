@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Interests
-  class Interest < CoreBy::Base::ApplicationRecord
-    self.entity = Entities::Interest
+  class Interest < CoreBy::SDK::ApplicationRecord
+    self.entity = SDK::InterestEntity
 
     has_many :user_interests
 

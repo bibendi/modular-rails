@@ -4,7 +4,7 @@ module CoreBy
   module Recurring
     # https://github.com/anycable/graphql-anycable#operations
     # https://github.com/anycable/graphql-anycable/blob/master/lib/graphql/anycable/tasks/clean_expired_subscriptions.rake
-    class CleanGraphQLSubscriptionsJob < Base::RecurringJob
+    class CleanGraphQLSubscriptionsJob < SDK::RecurringJob
       queue_as :low_priority
 
       def perform

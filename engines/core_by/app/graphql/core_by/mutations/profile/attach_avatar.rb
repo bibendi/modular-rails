@@ -3,14 +3,14 @@
 module CoreBy
   module Mutations
     module Profile
-      class AttachAvatar < Schema::Mutation
+      class AttachAvatar < SDK::Schema::Mutation
         graphql_name "AttachProfileAvatar"
 
         description "Update the current user's avatar (by attaching a blob via signed ID)"
 
-        argument :blob_id, Types::SignedBlobId, "Signed blob ID for avatar image", required: true
+        argument :blob_id, SDK::Types::SignedBlobId, "Signed blob ID for avatar image", required: true
 
-        field :user, Types::User, null: true
+        field :user, SDK::Types::User, null: true
 
         def resolve(blob_id:)
           current_user.avatar.attach(blob_id)

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module AuthBy
-  class User < ::CoreBy::Base::ApplicationRecord
+  class User < ::CoreBy::SDK::ApplicationRecord
     authenticates_with_sorcery!
 
     def jwt_payload

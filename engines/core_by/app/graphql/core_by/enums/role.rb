@@ -2,7 +2,7 @@
 
 module CoreBy
   module Enums
-    class Role < Schema::Enum
+    class Role < SDK::Schema::Enum
       description "User role"
 
       value "MEMBER", "Member", value: "member"

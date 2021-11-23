@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module AuthBy
-  class UserMailerPreview < CoreBy::Base::MailerPreview
+  class UserMailerPreview < CoreBy::SDK::MailerPreview
     def reset_password_instructions
       UserMailer
         .with(user: user)

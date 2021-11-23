@@ -40,7 +40,7 @@ describe "/api/graphql" do
     end
 
     context "when user is discarded" do
-      before { CoreBy::SDK::Users.discard!(user.id) }
+      before { CoreBy::SDK::UsersRepository.discard!(user.id) }
 
       it "authenticates user" do
         is_expected.to be_successful
