@@ -2,14 +2,14 @@
 
 module AuthBy
   module Mutations
-    class SignUp < CoreBy::Schema::Mutation
+    class SignUp < CoreBy::SDK::Schema::Mutation
       description <<~DESC
         Register user by email.
 
         Create a user and return back JWT access token.
       DESC
 
-      class SignUpInput < CoreBy::Schema::Input
+      class SignUpInput < CoreBy::SDK::Schema::Input
         description "Register user input"
 
         argument :email, String, "User email", required: true
@@ -19,18 +19,20 @@ module AuthBy
 
       argument :input, SignUpInput, required: true
 
-      field :user, CoreBy::Types::User, null: true
+      field :user, CoreBy::SDK::Types::User, null: true
       field :access_token, String, "JWT access token", null: true
       field :refresh_token, String, "JWT refresh token", null: true
-      field :errors, CoreBy::Types::ValidationErrors, "Errors when a user cannot be created", null: true
+      field :errors, CoreBy::SDK::Types::ValidationErrors, "Errors when a user cannot be created", null: true
 
       def resolve(input:)
         form = RegisterUserForm.new(input.to_h)
 
         if form.save
           tokens = form.user.generate_jwt_tokens
+          entity_user = CoreBy::SDK::UsersRepository.find_by_id(form.user.id)
+
           {
-            user: form.user.becomes(CoreBy::User),
+            user: entity_user,
             access_token: tokens[:access],
             refresh_token: tokens[:refresh]
           }

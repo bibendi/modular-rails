@@ -10,6 +10,8 @@ require:
 
 AllCops:
   Exclude:
+    - '**/tmp/**/*'
+    - '**/log/**/*'
     - 'db/schema.rb'
     - 'db/statistics_schema.rb'
 
@@ -42,4 +44,4 @@ Lint/Env:
     - '**/testing/*.rb'
     - '**/spec/**/support/**/*'
     - 'lib/generators/**/*'
-    - 'engines/core_by/app/models/core_by/direct_db.rb'
+    - 'engines/core_by/public/models/core_by/sdk/application_direct_record.rb'

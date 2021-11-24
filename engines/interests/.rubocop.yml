@@ -1,0 +1,4 @@
+inherit_gem:
+  common-rubocop:
+    - config/base.yml
+    - config/database_validations.yml

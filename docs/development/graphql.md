@@ -24,7 +24,7 @@ just `String`). **NOTE:** add _general_ scalar types to `common-graphql` gem.
 
 ```ruby
 # Bad
-class SomeType < CoreBy::Schema::Object
+class SomeType < CoreBy::SDK::Schema::Object
   field :id, ID, null: false
   field :meta, MetadataType, null: true
 
@@ -33,7 +33,7 @@ class SomeType < CoreBy::Schema::Object
   end
 end
 
-class MetadataType < CoreBy::Schema::Object
+class MetadataType < CoreBy::SDK::Schema::Object
   field :device, String, null: true
 
   def device
@@ -42,12 +42,12 @@ class MetadataType < CoreBy::Schema::Object
 end
 
 # Good
-class SomeType < CoreBy::Schema::Object
+class SomeType < CoreBy::SDK::Schema::Object
   field :id, ID, null: false, method: :external_id
   field :meta, MetadataType, null: true
 end
 
-class MetadataType < CoreBy::Schema::Object
+class MetadataType < CoreBy::SDK::Schema::Object
   field :device, String, null: true, hash_key: "device_id"
 end
 ```
@@ -75,11 +75,11 @@ field :foo, String, null: false, user_checks: {completed: true}
 
 The above field will check `current_user.completed?` method when authorizing an access.
 
-- Use `AttachmentURLField` extension for Active Storage attachments:
+- Use `AttachmentFieldExt` extension for Active Storage attachments:
 
 ```ruby
-field :avatar_url, CoreBy::Types::URLString::Types::URLString, "URL of user's avatar", null: true do
-  extension FieldExtensions::AttachmentURLField, variant: {enum: Enums::AvatarVariant, required: true}
+field :avatar_url, CoreBy::SDK::Types::URLString, "URL of user's avatar", null: true do
+  extension CoreBy::SDK::Schema::AttachmentFieldExt, variant: {enum: Enums::AvatarVariant, required: true}
 end
 ```
 
@@ -93,8 +93,8 @@ The name of the attachment is resolved automatically from the field name
 You can specify the attachment name explicitly:
 
 ```ruby
-field :avatar_url, CoreBy::Types::URLString::Types::URLString, "URL of user's avatar", null: true do
-  extension FieldExtensions::AttachmentURLField, attachment: :avatar
+field :avatar_url, CoreBy::SDK::Types::URLString, "URL of user's avatar", null: true do
+  extension CoreBy::SDK::Schema::AttachmentFieldExt, attachment: :avatar
 end
 ```
 
@@ -148,8 +148,8 @@ field :update_profile_password, mutation: Mutations::Profile::UpdatePassword
 module AuthBy
   module Mutations
     module Profile
-      class UpdateInfo < CoreBy::Schema::Mutation
-        class UpdateProfileInfoInput < Schema::Input
+      class UpdateInfo < CoreBy::SDK::Schema::Mutation
+        class UpdateProfileInfoInput < CoreBy::SDK::Schema::Input
           argument :first_name, String, required: false
           argument :last_name, String, required: false
           argument :bio, String, required: false
@@ -169,7 +169,7 @@ end
 ```ruby
 # some mutation
 # ...
-field :errors, ValidationErrors, null: true
+field :errors, CoreBy::SDK::Schema::ValidationErrors, null: true
 
 def resolve(*)
   # ...

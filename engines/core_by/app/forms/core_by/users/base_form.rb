@@ -2,7 +2,7 @@
 
 module CoreBy
   module Users
-    class BaseForm < CoreBy::BaseForm
+    class BaseForm < SDK::ApplicationForm
       attr_reader :user
 
       validate :validate_user

@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-ActiveSupport.on_load("core_by/base_controller") do
-  include AuthBy::BaseController
+ActiveSupport.on_load("core_by/sdk/application_controller") do
+  include AuthBy::Ext::CoreBy::SDK::ApplicationController
 end
 
-ActiveSupport.on_load("core_by/api/base_controller") do
-  include AuthBy::Api::BaseController
+ActiveSupport.on_load("core_by/sdk/api_controller") do
+  include AuthBy::Ext::CoreBy::SDK::APIController
 end
 
-ActiveSupport.on_load("core_by/application_schema/mutation_root") do
+ActiveSupport.on_load("core_by/sdk/cable_connection") do
+  include AuthBy::Ext::CoreBy::SDK::CableConnection
+end
+
+ActiveSupport.on_load("core_by/mutation_root") do
   include AuthBy::MutationRoot
-end
-
-ActiveSupport.on_load("core_by/cable_connection") do
-  include AuthBy::CableConnection
 end

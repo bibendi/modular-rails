@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module CoreBy
-  class UserPolicy < BasePolicy
+  class UserPolicy < SDK::ApplicationPolicy
     pre_check :allow_community_managers
 
     alias_rule :view?, to: :show?

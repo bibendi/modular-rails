@@ -85,6 +85,9 @@ group :development, :test do
   # == Security/Audit
   # Check for known CVE in gems
   gem "bundler-audit", require: false
+
+  # Linter to enforce boundaries
+  gem "packwerk", require: false
 end
 
 group :development do
@@ -134,7 +137,7 @@ def engine(name)
       end
 
       # Add development deps to development and test groups
-      gem "#{name}-dev", path: "engines/#{name}", group: [:development, :test]
+      gem "#{name}-dev", path: "engines/#{name}"
     end
   end
 end
@@ -142,4 +145,5 @@ end
 path "engines" do
   engine "core_by"
   engine "auth_by"
+  engine "interests"
 end

@@ -3,12 +3,12 @@
 module CoreBy
   module Mutations
     module Profile
-      class UpdateInfo < Schema::Mutation
+      class UpdateInfo < SDK::Schema::Mutation
         graphql_name "UpdateProfileInfo"
 
         description "Update the current user's profile information (basic fields)"
 
-        class UpdateProfileInfoInput < Schema::Input
+        class UpdateProfileInfoInput < SDK::Schema::Input
           description "Update profile info input"
 
           argument :login, String, "User name, e.g. 'john.green'", required: false
@@ -17,8 +17,8 @@ module CoreBy
 
         argument :input, UpdateProfileInfoInput, "Update profile info input", required: true
 
-        field :user, Types::User, null: true
-        field :errors, Types::ValidationErrors, null: true
+        field :user, SDK::Types::User, null: true
+        field :errors, SDK::Types::ValidationErrors, null: true
 
         def resolve(input:)
           form = CoreBy::Users::UpdateForm.new(current_user, input.to_h)

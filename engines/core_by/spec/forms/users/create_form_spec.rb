@@ -19,6 +19,6 @@ describe CoreBy::Users::CreateForm do
   end
 
   it "publishes event" do
-    expect { subject.save }.to have_published_event(CoreBy::Users::Created)
+    expect { subject.save }.to have_published_event(CoreBy::SDK::Users::Created)
   end
 end

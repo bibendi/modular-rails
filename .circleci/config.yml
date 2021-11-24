@@ -90,7 +90,7 @@ commands:
 executors:
   ruby:
     docker:
-      - image: circleci/ruby:2.7.2-node
+      - image: circleci/ruby:2.7.4
     environment:
       BUNDLE_PATH: /home/circleci/project/vendor/bundle
       BUNDLER_VERSION: 2.2.31
@@ -99,7 +99,7 @@ executors:
 
   rails:
     docker:
-      - image: circleci/ruby:2.7.2-node-browsers
+      - image: circleci/ruby:2.7.4
       - image: timescale/timescaledb:2.1.0-pg13
         environment:
           POSTGRES_PASSWORD: password
@@ -240,6 +240,12 @@ jobs:
       - prepare_databases
       # run after tests to make sure that schema is up-to-date
       - run:
+          name: Packwerk validate
+          command: bundle exec packwerk validate
+      - run:
+          name: Packwerk check
+          command: bundle exec packwerk check
+      - run:
           name: Database Integrity check
           command: bundle exec rails db:validate_integrity
       - run:
@@ -298,6 +304,9 @@ jobs:
           brakeman: true
       - engem:
           target: auth_by
+          brakeman: true
+      - engem:
+          target: interests
           brakeman: true
       - save_cache:
           key: vic-bootsnap-v1-{{ .Branch }}-{{ .Revision }}

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module AuthBy
-  class UpdatePasswordForm < CoreBy::BaseForm
+  class UpdatePasswordForm < CoreBy::SDK::ApplicationForm
     attributes :user, :current_password, :password, :password_confirmation
 
     validates :current_password, presence: true

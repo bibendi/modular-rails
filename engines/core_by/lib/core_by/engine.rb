@@ -13,6 +13,7 @@ module CoreBy
     isolate_namespace CoreBy
 
     config.autoload_paths += Dir["#{config.root}/app/**/concerns"]
+    config.autoload_paths += Dir["#{config.root}/public/*"]
 
     config.core_by = ActiveSupport::OrderedOptions.new
 
@@ -35,6 +36,10 @@ module CoreBy
       ActiveSupport.on_load(:factory_bot) do
         FactoryBot.definition_file_paths.unshift engine_factories_path
       end
+    end
+
+    rake_tasks do
+      load "core_by/tasks/graphql.rake"
     end
   end
 end

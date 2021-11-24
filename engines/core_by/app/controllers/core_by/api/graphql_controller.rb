@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module CoreBy
-  module Api
-    class GraphQLController < BaseController
+  module API
+    class GraphQLController < SDK::ApplicationController
       def execute
         variables = ensure_hash(params[:variables]).compact
         query = params[:query]

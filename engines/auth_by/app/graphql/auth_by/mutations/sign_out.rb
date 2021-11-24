@@ -2,7 +2,7 @@
 
 module AuthBy
   module Mutations
-    class SignOut < CoreBy::Schema::Mutation
+    class SignOut < CoreBy::SDK::Schema::Mutation
       description <<~DESC
         Sign out a user (flush JWT session).
       DESC

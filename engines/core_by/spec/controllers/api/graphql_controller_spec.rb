@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe CoreBy::Api::GraphQLController do
+describe CoreBy::API::GraphQLController do
   subject { post :execute, params: {query: "query { time }"} }
 
   it "responds ok" do

@@ -40,16 +40,18 @@ describe "/api/graphql" do
     end
 
     context "when user is discarded" do
-      before { user.discard }
+      before { CoreBy::SDK::UsersRepository.discard!(user.id) }
 
       it "authenticates user" do
         is_expected.to be_successful
-        expect(json_response.dig("data", "me", "user", "id")).to eq user.external_id
+        expect(json_response.dig("data", "me")).to be nil
+        expect(json_response["errors"][0]["extensions"]["code"]).to eq "unauthenticated"
+        expect(json_response["errors"][0]["extensions"]["reason"]).to eq "user_not_found"
       end
     end
 
     context "when user is destroyed" do
-      before { user.really_destroy }
+      before { user.destroy! }
 
       it "doesn't authenticate user", :aggregate_failures do
         is_expected.to be_successful

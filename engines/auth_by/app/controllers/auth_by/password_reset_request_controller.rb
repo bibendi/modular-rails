@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module AuthBy
-  class PasswordResetRequestController < CoreBy::BaseController
+  class PasswordResetRequestController < CoreBy::SDK::ApplicationController
     layout Engine.config.layout if Engine.config.respond_to?(:layout)
 
     before_action :redirect_authenticated

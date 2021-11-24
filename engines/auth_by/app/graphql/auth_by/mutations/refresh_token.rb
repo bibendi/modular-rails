@@ -2,7 +2,7 @@
 
 module AuthBy
   module Mutations
-    class RefreshToken < CoreBy::Schema::Mutation
+    class RefreshToken < CoreBy::SDK::Schema::Mutation
       description <<~DESC
         Refresh a JWT access token.
 
@@ -11,6 +11,7 @@ module AuthBy
 
       argument :refresh_token, String, "JWT refresh token", required: true
 
+      field :user, CoreBy::SDK::Types::User, null: true
       field :access_token, String, "JWT access token", null: true
 
       def resolve(refresh_token:)
@@ -22,15 +23,20 @@ module AuthBy
           fail_with! :unauthenticated, "Malicious activity detected", reason: :token_invalid
         end
 
-        user = User.kept.find_by(id: refresh_payload["user_id"])
-        unless user
+        entity_user = CoreBy::SDK::UsersRepository.find_by_id(refresh_payload["user_id"])
+        unless entity_user
           fail_with! :unauthenticated, "Unauthenticated access to the field refreshToken", reason: :user_not_found
         end
+
+        user = User.find_by_id(entity_user.id)
 
         session = JWTSessions::Session.new(namespace: user.jwt_namespace, **user.jwt_payload)
 
         tokens = session.refresh(refresh_token)
-        {access_token: tokens[:access]}
+        {
+          access_token: tokens[:access],
+          user: entity_user
+        }
       rescue JWTSessions::Errors::Unauthorized
         fail_with! :unauthenticated, "Refresh token is invalid", reason: :token_invalid
       end

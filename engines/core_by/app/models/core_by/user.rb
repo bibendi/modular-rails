@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 module CoreBy
-  class User < BaseRecord
+  class User < SDK::ApplicationRecord
     extend AttachmentsVariants
 
     include SoftDeletable
     include WithExternalId
+
+    self.entity = SDK::UserEntity
 
     %i[login email phone].each do |stripped_column|
       attribute stripped_column, :stripped_string

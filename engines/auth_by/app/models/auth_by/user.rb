@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
 module AuthBy
-  class User < CoreBy::User
+  class User < ::CoreBy::SDK::ApplicationRecord
     authenticates_with_sorcery!
-
-    default_scope -> { where.not(membership_state: "disabled") }
 
     def jwt_payload
       {payload: {user_id: id}, refresh_payload: {user_id: id}}

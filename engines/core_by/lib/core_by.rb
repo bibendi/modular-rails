@@ -28,10 +28,12 @@ require "graphql-anycable"
 require "graphql-fragment_cache"
 require "graphql/persisted_queries"
 require "graphql/connections"
+require "resonad"
 
 require "active_record/types/stripped_string"
 require "core_by/active_storage"
 require "core_by/statistics"
+require "core_by/graphql/entity_behaviour"
 require "core_by/graphql/loaders/association_loader"
 require "core_by/graphql/loaders/record_loader"
 

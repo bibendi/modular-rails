@@ -11,7 +11,7 @@ describe Lograge do
 
   describe "handling custom append_info_to_payload method" do
     let(:controller) do
-      cntr = CoreBy::BaseController.new
+      cntr = CoreBy::SDK::ApplicationController.new
       cntr.instance_variable_set(:@current_user, Struct.new(:id).new(1234))
       cntr.request = request
       cntr
@@ -47,7 +47,7 @@ describe Lograge do
         Time.now,
         2,
         status: 200,
-        controller: "CoreBy::BaseController",
+        controller: "CoreBy::SDK::ApplicationController",
         action: "index",
         format: "application/json",
         method: "GET",

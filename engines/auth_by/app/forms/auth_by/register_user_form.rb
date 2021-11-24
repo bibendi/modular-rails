@@ -1,41 +1,33 @@
 # frozen_string_literal: true
 
 module AuthBy
-  class RegisterUserForm < CoreBy::BaseForm
-    attr_reader :user_form, :user
+  class RegisterUserForm < CoreBy::SDK::ApplicationForm
+    attr_reader :user, :entity_user
 
     attributes :email, :password, :password_confirmation
 
     validates :email, presence: true
     validates :password, length: {minimum: 8}, confirmation: true
-    validate :validate_user
 
     after_save do
       Downstream.publish(
-        AuthBy::Users::Registered.new(user: user)
+        AuthBy::SDK::Users::Registered.new(user: entity_user)
       )
     end
 
-    def initialize(params)
-      @user_form = CoreBy::Users::CreateForm.new(email: params[:email])
-      super
-    end
-
     def persist!
-      user_form.save!
-      @user = user_form.user.becomes(User)
+      result = CoreBy::SDK::UsersRepository.create(email: email)
+      unless result.ok?
+        merge_errors!(result.error)
+        return false
+      end
+
+      @entity_user = result.value
+      @user = User.find(entity_user.id)
       user.change_password!(password)
     rescue ActiveRecord::RecordNotUnique
       errors.add(:base, "User already exists")
       false
-    end
-
-    private
-
-    def validate_user
-      return if user_form.valid?
-
-      merge_errors!(user_form)
     end
   end
 end
